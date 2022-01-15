@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Veteran\\OneDrive\\School\\Saint Martin's Univ\\Classes\\CSC515 Data Struct & Algos\\Visual Studio projects\\Class work\\1-11-22 class work\\1-11-22 class work\\1-11-22 class work.csproj",
+      "projectUniqueName": "C:\\Users\\Veteran\\OneDrive\\School\\Saint Martin's Univ\\Classes\\CSC515 Data Struct & Algos\\Visual Studio projects\\Classwork\\1-11-22 classwork\\1-11-22 class work\\1-11-22 class work.csproj",
       "projectName": "1-11-22 class work",
-      "projectPath": "C:\\Users\\Veteran\\OneDrive\\School\\Saint Martin's Univ\\Classes\\CSC515 Data Struct & Algos\\Visual Studio projects\\Class work\\1-11-22 class work\\1-11-22 class work\\1-11-22 class work.csproj",
+      "projectPath": "C:\\Users\\Veteran\\OneDrive\\School\\Saint Martin's Univ\\Classes\\CSC515 Data Struct & Algos\\Visual Studio projects\\Classwork\\1-11-22 classwork\\1-11-22 class work\\1-11-22 class work.csproj",
       "packagesPath": "C:\\Users\\Veteran\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Veteran\\OneDrive\\School\\Saint Martin's Univ\\Classes\\CSC515 Data Struct & Algos\\Visual Studio projects\\Class work\\1-11-22 class work\\1-11-22 class work\\obj\\",
+      "outputPath": "C:\\Users\\Veteran\\OneDrive\\School\\Saint Martin's Univ\\Classes\\CSC515 Data Struct & Algos\\Visual Studio projects\\Classwork\\1-11-22 classwork\\1-11-22 class work\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Veteran\\AppData\\Roaming\\NuGet\\NuGet.Config",
