@@ -9,7 +9,7 @@ namespace _1_11_22_class_work
         {
             // -------------- READ/WRITE TO CONSOLE: --------------
 
-            Console.WriteLine("(Writing to console) Please enter a string: ");
+            Console.WriteLine("Please enter a string: ");
             string userInputConsole = Console.ReadLine();
             Console.WriteLine($"You entered: {userInputConsole}");
 
@@ -53,7 +53,6 @@ namespace _1_11_22_class_work
                     countFile++;  // if it is, increase the count
                 }
             }
-            Console.WriteLine($"Final count from external file is {countFile}");  // write to console
             outputFile.WriteLine($"Final count from external file is {countFile}");  // write to external file
 
             inputFile.Close();
@@ -63,7 +62,8 @@ namespace _1_11_22_class_work
             // -------------- CALLING METHOD TO DISPLAY ASTERIKS: --------------
 
             Console.WriteLine("(Testing method) Display 5 stars:");
-            DisplayAsterisks(5); Console.WriteLine();
+            DisplayAsterisks(5); 
+            Console.WriteLine();
 
             Console.Write("Enter today's sales for store 1: ");
             int store1 = int.Parse(Console.ReadLine()); // read user's input; convert str to int
