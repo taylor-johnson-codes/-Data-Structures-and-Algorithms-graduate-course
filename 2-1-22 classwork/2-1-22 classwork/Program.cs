@@ -7,15 +7,13 @@ namespace _2_1_22_classwork
         static void Main(string[] args)
         {
             int[] numbers = { 1, 8, 7, 3, 5, 9, 2, 4, 6 };
-            Console.WriteLine($"Original array: ");
+            Console.WriteLine("Original array:");
             DisplayArray(numbers);
             //BubbleSort(numbers);
             SelectionSort(numbers);
-            Console.WriteLine($"Sorted array: ");
+            Console.WriteLine("Sorted array:");
             DisplayArray(numbers);
-
-
-
+            
         }
 
         static void DisplayArray(int[] arr)  // O(n)
@@ -71,7 +69,8 @@ namespace _2_1_22_classwork
             }
         }
 
-        static void SelectionSort(int[] arr)
+        static void SelectionSort(int[] arr)  // O(n^2)
+        // can't know if passed arr is sorted with the first run like BubbleSort2() because you're not comparing values side-by-side
         {
             for (int j = 0; j < arr.Length-1; j++)  // brings the smallest value to position j
             {
@@ -89,5 +88,7 @@ namespace _2_1_22_classwork
                 arr[minPosition] = temp;
             }
         }
+
+
     }
 }
