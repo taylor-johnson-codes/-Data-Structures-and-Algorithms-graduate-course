@@ -10,9 +10,12 @@ namespace _2_1_22_classwork
             Console.WriteLine("Original array:");
             DisplayArray(numbers);
             //BubbleSort(numbers);
-            SelectionSort(numbers);
+            //SelectionSort(numbers);
+            MergeSort(numbers);
             Console.WriteLine("Sorted array:");
             DisplayArray(numbers);
+
+            // see his code for initializing an array with a lot of random numbers
             
         }
 
@@ -89,6 +92,66 @@ namespace _2_1_22_classwork
             }
         }
 
+        static void MergeSort(int[] arr)  // O(n log n) faster than the others here
+        {
+            MergeSortHelper(arr, 0, arr.Length - 1);
+        }
 
+        static void MergeSortHelper(int[] arr, int startIndex, int endIndex)  // for dividing into subarrays (slices of the original array)
+        {
+            if (startIndex<endIndex)  // if we have at least 2 elements, divide and conquer
+            {
+                // divide
+                int middleIndex = (startIndex + endIndex) / 2;
+                MergeSortHelper(arr, startIndex, middleIndex);  // sort the first half
+                MergeSortHelper(arr, middleIndex + 1, endIndex);  // sort the second half
+
+                // conquer - merge the two halves
+                Merge(arr, startIndex, middleIndex, endIndex);
+            }
+        }
+        static void Merge(int[] arr, int startIndex, int middleIndex, int endIndex)
+        {
+            int[] tempArr = new int[arr.Length];  // temporary array - MOVED THIS TO THE FIRST MERGESORT() and kept passing it down to all merge functions; see his code
+            int i = startIndex;  // will help run through the first half of the slice/subarray
+            int j = middleIndex+1;  // will help run through the second half of the slice/subarray
+            int k = startIndex;  // start index of the temp array
+
+            while (i <= middleIndex && j <= endIndex)  // as long as I can compare values
+            {
+                if(arr[i] <= arr[j])
+                {
+                    tempArr[k] = arr[i];
+                    i++;
+                    k++;
+                }
+                else
+                {
+                    tempArr[k] = arr[j];
+                    j++;
+                    k++;    
+                }
+            }
+
+            while (i <= middleIndex)  // copy the remaining values (if any) into the temp array
+            {
+                tempArr[k] = arr[i];
+                i++;
+                k++;
+            }
+
+            while (j <= endIndex)  // copy the remaining values (if any) into the temp array
+            {
+                tempArr[k] = arr[j];
+                j++;
+                k++;
+            }
+            // everything is merged in the temp array now
+
+            for (int d = startIndex; d <= endIndex; d++)
+            {
+                arr[d] = tempArr[d];
+            }
+        }
     }
 }
