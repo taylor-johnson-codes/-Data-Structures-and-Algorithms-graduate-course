@@ -28,7 +28,7 @@ namespace _2_1_22_classwork
             Console.WriteLine();
         }
 
-        static void BubbleSort(int[] arr)  // O(n^2); this one doesn't check if the passed array is already sorted, BubbleSort2() below does
+        static void BubbleSort(int[] arr)  // time complexity O(n^2); this one doesn't check if the passed array is already sorted, BubbleSort2() below does
         // arrays are passed by reference, so if we pass an array from main method and change it, the array will be changed in main method
         {
             for (int j = 0; j < arr.Length; j++)
@@ -46,10 +46,10 @@ namespace _2_1_22_classwork
                 }
             }
         }
-
+        // space complexity O(1) because we need to use an int temp var
         // If passed array is already sorted, don't need to do all of the first BubbleSort() on it, just need to go through the first run to check
         // If passed array is already sorted, then bubble sort is faster than selection sort even though they're both O(n^2)
-        static void BubbleSort2(int[] arr)  // O(n^2)
+        static void BubbleSort2(int[] arr)  // time complexity O(n^2)
         // arrays are passed by reference, so if we pass an array from main method and change it, the array will be changed in main method
         {
             for (int j = 0; j < arr.Length; j++)
@@ -73,7 +73,10 @@ namespace _2_1_22_classwork
             }
         }
 
-        static void SelectionSort(int[] arr)  // O(n^2)
+        static void SelectionSort(int[] arr)  // time complexity O(n^2)  // searching one less of n in each search
+        // start at beginning, traverse for smallest, beginning +1 repeat
+        // space complexity O(1) because we need to use an int temp var
+
         // can't know if passed arr is sorted with the first run like BubbleSort2() because you're not comparing values side-by-side
         {
             for (int j = 0; j < arr.Length-1; j++)  // brings the smallest value to position j
@@ -93,7 +96,9 @@ namespace _2_1_22_classwork
             }
         }
 
-        static void MergeSort(int[] arr)  // O(n log n) is faster than the other sorts here
+        static void MergeSort(int[] arr)  // time complexity O(n log n) is faster than the other sorts here
+        // O(log n) split and sort each half individually and keep repeating; O(n) to merge
+        // space complexity o(n) because temp array of n length is needed
         {
             int[] tempArr = new int[arr.Length];  // allocating a temporary buffer (piece of memory to use temporarily)
             MergeSortHelper(arr, 0, arr.Length - 1, tempArr);
