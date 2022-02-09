@@ -48,6 +48,7 @@ namespace _2_1_22_classwork
         }
 
         // If passed array is already sorted, don't need to do all of the first BubbleSort() on it, just need to go through the first run to check
+        // If passed array is already sorted, then bubble sort is faster than selection sort even though they're both O(n^2)
         static void BubbleSort2(int[] arr)  // O(n^2)
         // arrays are passed by reference, so if we pass an array from main method and change it, the array will be changed in main method
         {
@@ -92,65 +93,72 @@ namespace _2_1_22_classwork
             }
         }
 
-        static void MergeSort(int[] arr)  // O(n log n) faster than the others here
+        static void MergeSort(int[] arr)  // O(n log n) is faster than the other sorts here
         {
-            MergeSortHelper(arr, 0, arr.Length - 1);
+            int[] tempArr = new int[arr.Length];  // allocating a temporary buffer (piece of memory to use temporarily)
+            MergeSortHelper(arr, 0, arr.Length - 1, tempArr);
         }
 
-        static void MergeSortHelper(int[] arr, int startIndex, int endIndex)  // for dividing into subarrays (slices of the original array)
+        static void MergeSortHelper(int[] arr, int startIndex, int endIndex, int[] passedtempArr)  // for dividing into subarrays ("slices" of the original array)
         {
-            if (startIndex<endIndex)  // if we have at least 2 elements, divide and conquer
+            if (startIndex<endIndex)  // if we have at least 2 elements in the current subarray, then divide and conquer
             {
-                // divide
+                // divide (and keep dividing with recursion)
                 int middleIndex = (startIndex + endIndex) / 2;
-                MergeSortHelper(arr, startIndex, middleIndex);  // sort the first half
-                MergeSortHelper(arr, middleIndex + 1, endIndex);  // sort the second half
+                MergeSortHelper(arr, startIndex, middleIndex, passedtempArr);  // divides it into first "half"; sorting of this "half" is done in the next conquer portion
+                MergeSortHelper(arr, middleIndex + 1, endIndex, passedtempArr);  // // divides it into second "half"; sorting of this "half" is done in the next conquer portion
 
                 // conquer - merge the two halves
-                Merge(arr, startIndex, middleIndex, endIndex);
+                Merge(arr, startIndex, middleIndex, endIndex, passedtempArr);
             }
+            // else statement not needed because there's nothing to do because array has 0 or 1 element and that makes it a sorted array
         }
-        static void Merge(int[] arr, int startIndex, int middleIndex, int endIndex)
+        static void Merge(int[] arr, int startIndex, int middleIndex, int endIndex, int[] passedtempArr)  // merge the subarrays
         {
-            int[] tempArr = new int[arr.Length];  // temporary array - MOVED THIS TO THE FIRST MERGESORT() and kept passing it down to all merge functions; see his code
+            //int[] tempArr = new int[arr.Length];  // temporary array - MOVED THIS TO THE FIRST MERGESORT() and kept passing it down to all merge functions; see his code
+            // can keep it and use it here instead of passing from beginning, but Merge() is going to called a lot so don't want to allocate this temp arr a lot, just once
+            // moving it up helps processing time so it's not constantly allocating and deallocating and reallocating memory for this temp array 
+            
             int i = startIndex;  // will help run through the first half of the slice/subarray
-            int j = middleIndex+1;  // will help run through the second half of the slice/subarray
+            int j = middleIndex + 1;  // will help run through the second half of the slice/subarray
             int k = startIndex;  // start index of the temp array
 
-            while (i <= middleIndex && j <= endIndex)  // as long as I can compare values
+            while (i <= middleIndex && j <= endIndex)  
+            // as long as I can compare values from two subarrays/two "halves"; as long as there are values in both subarrays to compare
             {
-                if(arr[i] <= arr[j])
+                if(arr[i] <= arr[j])  // seeing if the first element of the first "half" is smaller than the first element of the second "half"
                 {
-                    tempArr[k] = arr[i];
+                    passedtempArr[k] = arr[i];
                     i++;
                     k++;
                 }
-                else
+                else  // if not, do the opposite 
                 {
-                    tempArr[k] = arr[j];
+                    passedtempArr[k] = arr[j];
                     j++;
                     k++;    
                 }
             }
 
-            while (i <= middleIndex)  // copy the remaining values (if any) into the temp array
+            // copy the remaining values (if any) into the temp array because there's no longer values in both subarrays to compare
+            while (i <= middleIndex)  
             {
-                tempArr[k] = arr[i];
+                passedtempArr[k] = arr[i];  // for any values left in the first subarray/first "half"
                 i++;
                 k++;
             }
 
-            while (j <= endIndex)  // copy the remaining values (if any) into the temp array
+            while (j <= endIndex)  // for any values left in the second subarray/second "half"
             {
-                tempArr[k] = arr[j];
+                passedtempArr[k] = arr[j];
                 j++;
                 k++;
             }
             // everything is merged in the temp array now
 
-            for (int d = startIndex; d <= endIndex; d++)
+            for (int d = startIndex; d <= endIndex; d++)  // "d" can be any variable name
             {
-                arr[d] = tempArr[d];
+                arr[d] = passedtempArr[d];
             }
         }
     }
