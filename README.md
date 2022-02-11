@@ -1,4 +1,5 @@
 ## CLASSWORK
+#### To view my code, click on the classwork folder, then click on the classwork folder again, then click on any/all of the .cs files located there.
 #### 1-11-22
 - Read/write to console and external file
 - Method to display stars
