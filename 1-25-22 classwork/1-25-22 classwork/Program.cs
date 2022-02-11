@@ -46,7 +46,7 @@ namespace _1_25_22_classwork
         /// <param name="arr"></param>
         /// <param name="someValue"></param>
         /// <returns>the index of someValue in arr if found; -1 otherwise</returns>
-        static int LinearSearch(int[] arr, int someValue)  // O(n)
+        static int LinearSearch(int[] arr, int someValue)  // time complexity O(n)
         {
             for (int i = 0; i < arr.Length; i++)
             {
@@ -57,7 +57,7 @@ namespace _1_25_22_classwork
             return -1;  // this will only run if someValue not found in arr
         }
 
-        static int BinarySearchIntArr(int[] arr, int someValue)  // O(log(n))
+        static int BinarySearchIntArr(int[] arr, int someValue)  // time complexity O(log(n))
         {
             // verify the array is sorted first!
 
@@ -81,7 +81,7 @@ namespace _1_25_22_classwork
             return -1;  // this will only run if someValue not found in arr
         }
 
-        static int BinarySearchStrArr(string[] arr, string someValue)  // O(log(n))
+        static int BinarySearchStrArr(string[] arr, string someValue)  // time complexity O(log(n))
         {
             // verify the array is sorted first!
 
@@ -107,7 +107,7 @@ namespace _1_25_22_classwork
         }
 
         // "generic method"; T is a placeholder
-        static int GenericBinarySearch<T>(T[] arr, T someValue) where T : IComparable
+        static int GenericBinarySearch<T>(T[] arr, T someValue) where T : IComparable  // time complexity O(log(n))
         {
             // verify the array is sorted first!
 
@@ -120,12 +120,12 @@ namespace _1_25_22_classwork
             {
                 // find the middle
                 int middleIndex = (leftIndex + rightIndex) / 2;  // reminder: there are no fractions when dividing ints
-                if (someValue.CompareTo(arr[middleIndex]) == 0)  // can't use == with <T> 
+                if (someValue.CompareTo(arr[middleIndex]) == 0)  // can't use == with <T>; CompareTo returns -1, 0, or 1 (smaller, equal, larger)
                 {
                     return middleIndex;  // success
                 }
-                //else if (arr[middleIndex] > someValue)  // can't do < or > on strings
-                else if (arr[middleIndex].CompareTo(someValue) > 0)  // CompareTo returns 0 if LOOK UP
+                // else if (arr[middleIndex] > someValue)  // can't do < or > on strings
+                else if (arr[middleIndex].CompareTo(someValue) > 0)  // CompareTo returns -1, 0, or 1 (smaller, equal, larger)
                 {
                     // search to the left; discard the right half; update rightIndex
                     rightIndex = middleIndex - 1;
@@ -141,11 +141,17 @@ namespace _1_25_22_classwork
 
         static int FindMax(int[] arr)
         {
+            // verify array is not an empty array
+            if (arr.Length == 0)
+            {
+                throw new Exception("Error: empty arrays don't have max values");  // program still crashes, but now this specific error message is displayed
+            }
+
             // save the first element value of the array
             int maxValue = arr[0];
 
             // traverse the remaining array values
-            for (int i = 1; i < arr.Length; i++)  // start at 1 because we've already looked at 0
+            for (int i = 1; i < arr.Length; i++)  // start at position 1 because we've already assigned position 0 to maxValue
             {
                 if (arr[i] > maxValue)
                 {
@@ -167,11 +173,11 @@ namespace _1_25_22_classwork
             int minValue = arr[0];
 
             // traverse the remaining array values
-            for (int i = 1; i < arr.Length; i++)  // start at 1 because we've already looked at 0
+            for (int i = 1; i < arr.Length; i++)  // start at position 1 because we've already assigned position 0 to maxValue
             {
                 if (arr[i] < minValue)
                 {
-                    minValue = arr[i];  // update maxValue
+                    minValue = arr[i];  // update minValue
                 }
             }
             return minValue;
