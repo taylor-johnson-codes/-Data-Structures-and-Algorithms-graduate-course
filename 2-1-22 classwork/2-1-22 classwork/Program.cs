@@ -57,13 +57,16 @@ namespace _2_1_22_classwork
             Console.WriteLine();
         }
 
-        static void BubbleSort(int[] arr)  // void return type because arrays are passed by reference; if we pass an array from main method and change it here, the array will be changed in main method
-        // time complexity O(n^2); this one doesn't check if the passed array is already sorted, BubbleSort2() below does
-        // space complexity O(1) because we need to use an int temp variable
+        static void BubbleSort(int[] arr)  // this one doesn't check if the passed array is already sorted, BubbleSort2() below does
+        // number of traversals required to sort is the length of the array minus 1
+        // one traversal guarentees the largest value is moved to the last position in the array
+        // each traversal builds on getting the end/larger numbers sorted
+        // void return type because arrays are passed by reference; if we pass an array from main method and change it here, the array will be changed in main method
+        // time complexity O(n^2) - nested for loop; space complexity O(1) - we need to use an int temp variable
         {
             for (int j = 0; j < arr.Length; j++)
             {
-                for (int i = 0; i < arr.Length-1-j; i++)  // -j because we only need to go one step fewer each run
+                for (int i = 0; i < arr.Length-1-j; i++)  // -1-j because we only need to go one step less further from the end in each run
                 {
                     if (arr[i] > arr[i+1])
                     {
@@ -78,11 +81,9 @@ namespace _2_1_22_classwork
         }
 
         static void BubbleSort2(int[] arr)  // builds upon BubbleSort() to check if the passed array is already sorted when passed
-        // void return type because arrays are passed by reference; if we pass an array from main method and change it here, the array will be changed in main method
-        // time complexity O(n^2)
-        // space complexity O(1) because we need to use an int temp variable
         // If passed array is already sorted, don't need to do all of the first BubbleSort() code on it, just need to go through the first run to check
         // If passed array is already sorted, then bubble sort is faster than selection sort even though they're both O(n^2)
+        // see notes in BubbleSort() for more info about bubble sort
         {
             for (int j = 0; j < arr.Length; j++)
             {
@@ -106,10 +107,10 @@ namespace _2_1_22_classwork
         }
 
         static void SelectionSort(int[] arr)  
-        // time complexity O(n^2); searching one less of n in each search
-        // space complexity O(1) because we need to use an int temp variable
-        // start at beginning, traverse for smallest, go back to beginning of what hasn't been searched and repeat
+        // start at beginning, traverse for smallest value and put it at beginning, go back to the start of what hasn't been searched and repeat
+        // sorts the from the beginning/smallest on up with each run 
         // can't know if passed array is sorted with the first run like in BubbleSort2() because we're not comparing values side-by-side like BubbleSort2() does
+        // time complexity O(n^2) - searching one less of n in each search; space complexity O(1) - we need to use an int temp variable
         {
             for (int j = 0; j < arr.Length-1; j++)  // brings the smallest value to position j
             {
@@ -129,6 +130,7 @@ namespace _2_1_22_classwork
         }
 
         static void MergeSort(int[] arr)  // requires MergeSortHelper() and Merge() below to work
+        // divide the array down into subarrays of one element each and then merge the subarrays together in order to make a full sorted array
         // time complexity O(n log n); breakdown: O(log n) split and sort each half individually and keep repeating * O(n) to merge = O(n log n)
         // space complexity O(n) because a temp array of n length is needed
         {
