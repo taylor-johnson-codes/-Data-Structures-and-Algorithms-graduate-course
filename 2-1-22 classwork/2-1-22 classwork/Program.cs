@@ -7,19 +7,48 @@ namespace _2_1_22_classwork
         static void Main(string[] args)
         {
             int[] numbers = { 1, 8, 7, 3, 5, 9, 2, 4, 6 };
+            // arrays are passed by reference, so if we pass an array from main method and change it in a different method, the array will be changed in main method as well
+
             Console.WriteLine("Original array:");
             DisplayArray(numbers);
             //BubbleSort(numbers);
+            //BubbleSort2(numbers);
             //SelectionSort(numbers);
             MergeSort(numbers);
             Console.WriteLine("Sorted array:");
             DisplayArray(numbers);
 
-            // see his code for initializing an array with a lot of random numbers
-            
+            // initializing an array with random numbers
+            //Random randGener = new Random();
+
+            //int size = 10;  // how many elements you want in the array
+            //int[] numbers1 = new int[size];  // create 3 empty arrays
+            //int[] numbers2 = new int[size];
+            //int[] numbers3 = new int[size];
+
+            //for (int i = 0; i < size; i++)
+            //{
+            //    //numbers1[i] = i;  // to populate the array with numbers in order from 0 to the number of the length of the array minus 1
+            //    numbers1[i] = randGener.Next(1,4000000);  // to populate the array with random numbers that range from 1 to 4,000,000
+            //    numbers2[i] = numbers1[i];  // to populate the 2nd and 3rd arrays with the exact same numbers
+            //    numbers3[i] = numbers1[i];
+            //}
+
+            // use with an array of a large number of elements like 100,000 or more to compare how long the three sorting methods take
+            //Console.WriteLine("start merge");
+            //MergeSort(numbers3);
+            //Console.WriteLine("end merge");
+
+            //Console.WriteLine("start select");
+            //SelectionSort(numbers2);
+            //Console.WriteLine("end select");
+
+            //Console.WriteLine("start bubble");
+            //BubbleSort2(numbers1);
+            //Console.WriteLine("end bubble");
         }
 
-        static void DisplayArray(int[] arr)  // O(n)
+        static void DisplayArray(int[] arr)  // time complexity O(n)
         {
             foreach (int value in arr)  // can use var instead of int; can use any variable instead of "value"
             {
@@ -28,8 +57,9 @@ namespace _2_1_22_classwork
             Console.WriteLine();
         }
 
-        static void BubbleSort(int[] arr)  // time complexity O(n^2); this one doesn't check if the passed array is already sorted, BubbleSort2() below does
-        // arrays are passed by reference, so if we pass an array from main method and change it, the array will be changed in main method
+        static void BubbleSort(int[] arr)  // void return type because arrays are passed by reference; if we pass an array from main method and change it here, the array will be changed in main method
+        // time complexity O(n^2); this one doesn't check if the passed array is already sorted, BubbleSort2() below does
+        // space complexity O(1) because we need to use an int temp variable
         {
             for (int j = 0; j < arr.Length; j++)
             {
@@ -46,22 +76,24 @@ namespace _2_1_22_classwork
                 }
             }
         }
-        // space complexity O(1) because we need to use an int temp var
-        // If passed array is already sorted, don't need to do all of the first BubbleSort() on it, just need to go through the first run to check
+
+        static void BubbleSort2(int[] arr)  // builds upon BubbleSort() to check if the passed array is already sorted when passed
+        // void return type because arrays are passed by reference; if we pass an array from main method and change it here, the array will be changed in main method
+        // time complexity O(n^2)
+        // space complexity O(1) because we need to use an int temp variable
+        // If passed array is already sorted, don't need to do all of the first BubbleSort() code on it, just need to go through the first run to check
         // If passed array is already sorted, then bubble sort is faster than selection sort even though they're both O(n^2)
-        static void BubbleSort2(int[] arr)  // time complexity O(n^2)
-        // arrays are passed by reference, so if we pass an array from main method and change it, the array will be changed in main method
         {
             for (int j = 0; j < arr.Length; j++)
             {
             bool didSwap = false;  // before making each run, reset to false
-                // one run
+                // a run
                 for (int i = 0; i < arr.Length-1-j; i++)
                 {
                     if (arr[i] > arr[i + 1])
                     {
                         // swap
-                        didSwap = true;  
+                        didSwap = true;  // flag that we swapped
                         int temp;  // need this to temporarily hold a value during the swap process
                         temp = arr[i];  // can put in i+1 to start with, either works
                         arr[i] = arr[i + 1];
@@ -73,22 +105,22 @@ namespace _2_1_22_classwork
             }
         }
 
-        static void SelectionSort(int[] arr)  // time complexity O(n^2)  // searching one less of n in each search
-        // start at beginning, traverse for smallest, beginning +1 repeat
-        // space complexity O(1) because we need to use an int temp var
-
-        // can't know if passed arr is sorted with the first run like BubbleSort2() because you're not comparing values side-by-side
+        static void SelectionSort(int[] arr)  
+        // time complexity O(n^2); searching one less of n in each search
+        // space complexity O(1) because we need to use an int temp variable
+        // start at beginning, traverse for smallest, go back to beginning of what hasn't been searched and repeat
+        // can't know if passed array is sorted with the first run like in BubbleSort2() because we're not comparing values side-by-side like BubbleSort2() does
         {
             for (int j = 0; j < arr.Length-1; j++)  // brings the smallest value to position j
             {
                 // find the position of the smallest value in the array
-                int minPosition = j;  // position of the min/smallest value
-                for (int i = j+1; i < arr.Length; i++)  // i=1 because arr[0] already set in minPosition
+                int minPosition = j;  // keeps track of the position of the smallest value
+                for (int i = j+1; i < arr.Length; i++)  // i=j+1 because arr[j] already set in minPosition
                 {
-                    if (arr[i] < arr[minPosition])  // if found value that's smaller
-                        minPosition = i;
+                    if (arr[i] < arr[minPosition])  // if value that's smaller is found...
+                        minPosition = i;  // update minPosition
                 }
-                // when you get here, minPosition has the position of smallest value in the run
+                // when you get here, minPosition has the position of the smallest value in the run
                 // swap value at position minPosition and 0
                 int temp = arr[j];
                 arr[j] = arr[minPosition];
@@ -96,48 +128,49 @@ namespace _2_1_22_classwork
             }
         }
 
-        static void MergeSort(int[] arr)  // time complexity O(n log n) is faster than the other sorts here
-        // O(log n) split and sort each half individually and keep repeating; O(n) to merge
-        // space complexity o(n) because temp array of n length is needed
+        static void MergeSort(int[] arr)  // requires MergeSortHelper() and Merge() below to work
+        // time complexity O(n log n); breakdown: O(log n) split and sort each half individually and keep repeating * O(n) to merge = O(n log n)
+        // space complexity O(n) because a temp array of n length is needed
         {
             int[] tempArr = new int[arr.Length];  // allocating a temporary buffer (piece of memory to use temporarily)
             MergeSortHelper(arr, 0, arr.Length - 1, tempArr);
+            // passes along the original array, the index positions of the original array, and the temp array
         }
 
         static void MergeSortHelper(int[] arr, int startIndex, int endIndex, int[] passedtempArr)  // for dividing into subarrays ("slices" of the original array)
         {
-            if (startIndex<endIndex)  // if we have at least 2 elements in the current subarray, then divide and conquer
+            if (startIndex < endIndex)  // if we have at least 2 elements in the current subarray, then divide and conquer
             {
                 // divide (and keep dividing with recursion)
                 int middleIndex = (startIndex + endIndex) / 2;
-                MergeSortHelper(arr, startIndex, middleIndex, passedtempArr);  // divides it into first "half"; sorting of this "half" is done in the next conquer portion
-                MergeSortHelper(arr, middleIndex + 1, endIndex, passedtempArr);  // // divides it into second "half"; sorting of this "half" is done in the next conquer portion
+                MergeSortHelper(arr, startIndex, middleIndex, passedtempArr);  // divides into first "half"; sorting of this "half" is done in the next conquer portion
+                MergeSortHelper(arr, middleIndex + 1, endIndex, passedtempArr);  // divides into second "half"; sorting of this "half" is done in the next conquer portion
 
                 // conquer - merge the two halves
                 Merge(arr, startIndex, middleIndex, endIndex, passedtempArr);
             }
-            // else statement not needed because there's nothing to do because array has 0 or 1 element and that makes it a sorted array
+            // else statement not needed because there's nothing else to do because the array/subarray contains 0 or 1 element and that makes it a sorted array
         }
         static void Merge(int[] arr, int startIndex, int middleIndex, int endIndex, int[] passedtempArr)  // merge the subarrays
         {
-            //int[] tempArr = new int[arr.Length];  // temporary array - MOVED THIS TO THE FIRST MERGESORT() and kept passing it down to all merge functions; see his code
-            // can keep it and use it here instead of passing from beginning, but Merge() is going to called a lot so don't want to allocate this temp arr a lot, just once
-            // moving it up helps processing time so it's not constantly allocating and deallocating and reallocating memory for this temp array 
+            //int[] tempArr = new int[arr.Length];  
+            // temporary array - moved this to MergeSort() and kept passing it down to all merge functions instead
+            // moving it up (so the memory is allocated once) instead of keeping it here helps processing time so it's not constantly allocating and deallocating and reallocating memory for this temp array if the code for it were to be kept here
             
-            int i = startIndex;  // will help run through the first half of the slice/subarray
-            int j = middleIndex + 1;  // will help run through the second half of the slice/subarray
-            int k = startIndex;  // start index of the temp array
+            int i = startIndex;  // to run through the first half of the slice/subarray
+            int j = middleIndex + 1;  // to run through the second half of the slice/subarray
+            int k = startIndex;  // starting index of the temp array
 
             while (i <= middleIndex && j <= endIndex)  
-            // as long as I can compare values from two subarrays/two "halves"; as long as there are values in both subarrays to compare
+            // as long as there are values in both subarrays to compare
             {
-                if(arr[i] <= arr[j])  // seeing if the first element of the first "half" is smaller than the first element of the second "half"
+                if(arr[i] <= arr[j])  // seeing if the first element of the first subarray is smaller than the first element of the second subarray
                 {
                     passedtempArr[k] = arr[i];
                     i++;
                     k++;
                 }
-                else  // if not, do the opposite 
+                else  // if it's not, do the opposite 
                 {
                     passedtempArr[k] = arr[j];
                     j++;
@@ -148,22 +181,22 @@ namespace _2_1_22_classwork
             // copy the remaining values (if any) into the temp array because there's no longer values in both subarrays to compare
             while (i <= middleIndex)  
             {
-                passedtempArr[k] = arr[i];  // for any values left in the first subarray/first "half"
+                passedtempArr[k] = arr[i];  // for any values left in the first subarray
                 i++;
                 k++;
             }
 
-            while (j <= endIndex)  // for any values left in the second subarray/second "half"
+            while (j <= endIndex)  // for any values left in the second subarray
             {
                 passedtempArr[k] = arr[j];
                 j++;
                 k++;
             }
-            // everything is merged in the temp array now
+            // everything is merged in order in the temp array now
 
             for (int d = startIndex; d <= endIndex; d++)  // "d" can be any variable name
             {
-                arr[d] = passedtempArr[d];
+                arr[d] = passedtempArr[d];  // updating the original array to match the temp array
             }
         }
     }
