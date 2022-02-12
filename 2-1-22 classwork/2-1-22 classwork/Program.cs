@@ -58,7 +58,6 @@ namespace _2_1_22_classwork
         }
 
         static void BubbleSort(int[] arr)  // this one doesn't check if the passed array is already sorted, BubbleSort2() below does
-        // number of traversals required to sort is the length of the array minus 1
         // one traversal guarentees the largest value is moved to the last position in the array
         // each traversal builds on getting the end/larger numbers sorted
         // void return type because arrays are passed by reference; if we pass an array from main method and change it here, the array will be changed in main method
