@@ -105,9 +105,9 @@ namespace _2_1_22_classwork
             }
         }
 
-        static void SelectionSort(int[] arr)  
-        // start at beginning, traverse for smallest value and put it at beginning, go back to the start of what hasn't been searched and repeat
-        // sorts the from the beginning/smallest on up with each run 
+        static void SelectionSort(int[] arr)
+        // start at beginning, traverses for the smallest value and put it at beginning, goes back to the start of what hasn't been searched and repeats until all sorted
+        // sorts the from the beginning of the array in order to the end of the array
         // can't know if passed array is sorted with the first run like in BubbleSort2() because we're not comparing values side-by-side like BubbleSort2() does
         // time complexity O(n^2) - searching one less of n in each search; space complexity O(1) - we need to use an int temp variable
         {
@@ -115,13 +115,13 @@ namespace _2_1_22_classwork
             {
                 // find the position of the smallest value in the array
                 int minPosition = j;  // keeps track of the position of the smallest value
-                for (int i = j+1; i < arr.Length; i++)  // i=j+1 because arr[j] already set in minPosition
+                for (int i = j+1; i < arr.Length; i++)  // i=j+1 because j already set in minPosition
                 {
                     if (arr[i] < arr[minPosition])  // if value that's smaller is found...
                         minPosition = i;  // update minPosition
                 }
                 // when you get here, minPosition has the position of the smallest value in the run
-                // swap value at position minPosition and 0
+                // swap value at position minPosition and j
                 int temp = arr[j];
                 arr[j] = arr[minPosition];
                 arr[minPosition] = temp;
