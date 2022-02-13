@@ -95,8 +95,9 @@ namespace _2_8_22_classwork
             if (leftIndex < rightIndex)  // need at least 2 elements to sort; or 0 or 1 element is in the array and that's sorted
             {
                 int pivotPosition = Partition(arr, leftIndex, rightIndex);  // the position for the pivot after the partition
-                QuickSortHelper(arr, leftIndex, pivotPosition - 1);  // recursively sort each subarray
-                QuickSortHelper(arr, pivotPosition + 1, rightIndex);  // recursively sort each subarray
+                // recursively sort each subarray
+                QuickSortHelper(arr, leftIndex, pivotPosition - 1);  // subarray on left side of pivot
+                QuickSortHelper(arr, pivotPosition + 1, rightIndex);  // subarray on right side of pivot
             }
         }
 
