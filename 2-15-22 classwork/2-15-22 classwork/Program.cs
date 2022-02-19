@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;  // for built-in ArrayList used here
-using System.Collections.Generic;  // for generic programming built-in List<> NOT used here
+using System.Collections;  // for using built-in ArrayList and for IEnumerable
+using System.Collections.Generic;  // for generic programming built-in List<> NOT USED HERE
 
 namespace _2_15_22_classwork
 {
@@ -62,7 +62,6 @@ namespace _2_15_22_classwork
 
             myList.Add("University");
             Console.WriteLine($"Count: {myList.Count}, capacity: {myList.Capacity}");
-
 
             Console.WriteLine($"Array is empty: {myList.IsEmpty()}");
 
