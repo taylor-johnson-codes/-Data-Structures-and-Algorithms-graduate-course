@@ -39,6 +39,9 @@ namespace _2_22_22_classwork
             myList.AddLast(600);
             myList.AddLast(700);
             myList.Display();
+
+            myList.DeleteValue(500);
+            myList.Display();
         }
     }
 
@@ -144,7 +147,7 @@ namespace _2_22_22_classwork
             {
                 Node<T> pointer = Head;
                 
-                while ((pointer.Next != null) && (pointer.Next.Value.CompareTo(valueToDelete) == 0))  // leave loop either when the list ends or when you find the node to delete
+                while ((pointer.Next != null) && (pointer.Next.Value.CompareTo(valueToDelete) != 0))  // leave loop either when the list ends or when you find the node to delete
                     pointer = pointer.Next;  
 
                 if (pointer.Next == null)  // there wasn't a match and the end of the list was reached
