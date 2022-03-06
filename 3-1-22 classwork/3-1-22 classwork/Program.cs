@@ -49,66 +49,7 @@ namespace _3_1_22_classwork
 
             // ---------------------------- Doubly Linked List ---------------------------- //
 
-            /*
-            DoublyLinkedList<int> myIntList = new DoublyLinkedList<int>();  // myIntList points to the newly created doubly linked list
-
-            Console.WriteLine("Display() to show the new list is empty.");
-            myIntList.Display();
-
-            Console.Write($"IsEmpty() result: {myIntList.IsEmpty()}\n\n");
-
-            Console.WriteLine("AddFirst() with 30, 20, 10.");
-            myIntList.AddFirst(30);
-            myIntList.AddFirst(20);  // will be added before 30
-            myIntList.AddFirst(10);  // will be added before 20
-            myIntList.Display();
-
-            Console.Write($"IsEmpty() result: {myIntList.IsEmpty()}\n\n");
-
-            Console.WriteLine("AddLast() with 40, 50, 60.");
-            myIntList.AddLast(40);
-            myIntList.AddLast(50);
-            myIntList.AddLast(60);
-            myIntList.Display();
-
-            myIntList.Reverse();
-            Console.WriteLine("Reversed list.");
-            myIntList.Display();
-
-            myIntList.Reverse();
-            Console.WriteLine("Reversed list again.");
-            myIntList.Display();
-
-            myIntList.DeleteFirst();
-            Console.WriteLine("Deleted the first node.");
-            myIntList.Display();
-
-            myIntList.DeleteLast();
-            Console.WriteLine("Deleted the last node.");
-            myIntList.Display();
-
-            Console.WriteLine("Attempted to delete the value 500 from the list.");
-            myIntList.DeleteValue(500);
-
-            myIntList.DeleteValue(40);
-            Console.WriteLine("Deleted 40 by value.");
-            myIntList.Display();
-
-            myIntList.DeleteNode(2);
-            Console.WriteLine("Deleted the second node.");
-            myIntList.Display();
-
-            Console.WriteLine("Attempted to delete the 10th node from the list.");
-            myIntList.DeleteNode(10);
-
-            myIntList.Clear();
-            Console.WriteLine("Cleared the list.");
-            Console.Write($"IsEmpty() result: {myIntList.IsEmpty()}\n\n");
-
-
-            Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-
-
+            
             DoublyLinkedList<string> myStrList = new DoublyLinkedList<string>();  // myStrList points to the newly created doubly linked list
 
             Console.WriteLine("Display() to show the new list is empty.");
@@ -153,47 +94,67 @@ namespace _3_1_22_classwork
             Console.WriteLine("Deleted L by value.");
             myStrList.Display();
 
-            myStrList.DeleteNode(2);
-            Console.WriteLine("Deleted the second node.");
-            myStrList.Display();
+            //myStrList.DeleteNode(2);
+            //Console.WriteLine("Deleted the second node.");
+            //myStrList.Display();
 
-            Console.WriteLine("Attempted to delete the 10th node from the list.");
-            myStrList.DeleteNode(10);
+            //Console.WriteLine("Attempted to delete the 10th node from the list.");
+            //myStrList.DeleteNode(10);
 
             myStrList.Clear();
             Console.WriteLine("Cleared the list.");
             Console.Write($"IsEmpty() result: {myStrList.IsEmpty()}\n\n");
-            */
 
 
             // ---------------------------- STACK ---------------------------- //
+
+            // A stack is FILO or LIFO; like a stack of plates or the browser's back button
 
             //MyStack<int> stack = new MyStack<int>();
             //stack.Push(10);
             //stack.Push(20);
             //stack.Push(30);
             //stack.Push(40);
-            //Console.WriteLine(stack.Peek());  // displays 40
-
+            //stack.Display();
+            //Console.Write($"Peek: {stack.Peek()}\n");  // 40
             //stack.Pop();
-            //Console.WriteLine(stack.Peek());  // displays 30
-
-            // C/P his code here
+            //Console.Write("Popped last value; ");
+            //stack.Display();
+            //Console.Write($"Peek: {stack.Peek()}\n");  // 30
+            //Console.WriteLine($"Count is: {stack.CountStack}");  // 3
+            ////Console.WriteLine(stack.Pop());  // 30
+            ////Console.WriteLine(stack.Pop());  // 20
+            ////Console.WriteLine(stack.Pop());  // 10
+            ////Console.WriteLine(stack.Pop());  // throws exception
+            //stack.Clear();
+            //Console.WriteLine("Cleared the list.");
+            //stack.Display();
 
 
             // ---------------------------- QUEUE ---------------------------- //
+
+            // A queue is FIFO or LILO; like standing in line or printing documents
 
             //MyQueue<string> queue = new MyQueue<string>();
             //queue.Enqueue("Saint");
             //queue.Enqueue("Martin");
             //queue.Enqueue("University");
-            //Console.WriteLine(queue.Count);  // 3
-            //Console.WriteLine(queue.Peek());  // what's first in line: Saint
+            //queue.Display();
+            //Console.WriteLine($"Count is: {queue.CountQueue}");  // 3
+            //Console.WriteLine($"Peek: {queue.Peek()}\n");  // what's first in line: Saint
             //Console.WriteLine(queue.Dequeue());  // Saint
             //Console.WriteLine(queue.Dequeue());  // Martin
-
+            //Console.WriteLine("Dequeued twice.");
+            //queue.Display();
             //queue.Enqueue("Lacey");
+            //Console.WriteLine("Enqueued Lacey.");
+            //queue.Display();
             //Console.WriteLine(queue.Dequeue());  // University
+            //Console.WriteLine("Dequeued once.");
+            //queue.Display();
+            //queue.Clear();
+            //Console.WriteLine("Cleared the list.");
+            //queue.Display();
 
 
             // ---------------------------- STACK USING QUEUE ---------------------------- //
@@ -204,25 +165,31 @@ namespace _3_1_22_classwork
             //stack2.Push(30);
             //stack2.Push(40);
             //stack2.Push(50);
-            //Console.WriteLine(stack2.Count2);  // 5
-            //stack2.Peek();  // 50
+            //stack2.Display();
+            //Console.WriteLine($"Count is: {stack2.CountSUQ}");  // 5
+            //Console.WriteLine($"Peek: {stack2.Peek()}\n");  // 50
             //stack2.Pop();  // 50
             //stack2.Pop();  // 40
-            //Console.WriteLine(stack2.Count2);  // 3
+            //Console.WriteLine("Popped twice.");
+            //stack2.Display();
+            //Console.WriteLine($"Count is: {stack2.CountSUQ}");  // 3
+            //stack2.Clear();
+            //Console.WriteLine("Cleared the list.");
+            //stack2.Display();
 
 
             // ---------------------------- FOR EACH LOOP IN SLL ---------------------------- //
-            SinglyLinkedList<int> sll = new SinglyLinkedList<int>();
-            sll.AddFirst(10);
-            sll.AddFirst(20);
-            sll.AddFirst(30);
-            sll.AddFirst(40);
-            sll.AddFirst(50);
 
-            foreach (int i in sll)
-            {
-                Console.WriteLine(i);
-            }
+            //SinglyLinkedList<int> sll = new SinglyLinkedList<int>();
+            //sll.AddFirst(10);
+            //sll.AddFirst(20);
+            //sll.AddFirst(30);
+            //sll.AddFirst(40);
+            //sll.AddFirst(50);
+
+            //// the last two IEnumerator methods in the SLL class allow for the foreach loop to work
+            //foreach (int value in sll)
+            //    Console.Write($"{value}  ");
         }
     }
 }

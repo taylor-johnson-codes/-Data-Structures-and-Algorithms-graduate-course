@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Collections;  // for IEnumerable
+using System.Collections.Generic;  // for IEnumerable
 
 namespace MyLibrary
 {
@@ -83,7 +83,7 @@ namespace MyLibrary
         {
             if (IsEmpty())
                 throw new Exception("You can't delete from an empty list.");  // this crashes and lets the user know what's wrong
-            else if (Head.Value.CompareTo(valueToDelete) == 0)   // need this at the beginning of the class for CompareTo() to work: class SinglyLinkedList<T> where T : IComparable 
+            else if (Head.Value.CompareTo(valueToDelete) == 0) 
                 DeleteFirst();  // if it's the first value in the list use DeleteFirst()
             else  // traverse and look ahead for value; if it's not what we're looking for, move pointer; if it is, break the link and link past it
             {

@@ -2,7 +2,6 @@
 
 namespace MyLibrary
 {
-    // new data type called Node; generic/type-safe class
     internal class Node<T>
     {
         // DATA SECTION
