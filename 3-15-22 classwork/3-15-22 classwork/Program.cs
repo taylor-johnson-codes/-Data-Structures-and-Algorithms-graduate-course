@@ -15,7 +15,20 @@ namespace _3_15_22_classwork
             myTree.Add(12);
             // put break point here, run, in watch window put in myTree and can see how tree is structured
 
+            Console.Write("PreOrder values: ");
+            myTree.PrintPreOrder();
+            Console.WriteLine();
+
+            Console.Write("InOrder values: ");
             myTree.PrintInOrder();
+            Console.WriteLine();
+
+            Console.Write("PostOrder values: ");
+            myTree.PrintPostOrder();
+            Console.WriteLine();
+
+            Console.WriteLine($"Min value: {myTree.Min()}");
+            Console.WriteLine($"Max value: {myTree.Max()}");
 
             Console.WriteLine($"Number of leaf nodes: {myTree.CountLeafNodes()}");
 
@@ -28,7 +41,7 @@ namespace _3_15_22_classwork
         public Node<T> Left { get; set; }
         public Node<T> Right { get; set; }
 
-        //ctor
+        // CONSTRUCTOR
         public Node(T newValue)
         {
             Value = newValue;
@@ -61,7 +74,15 @@ namespace _3_15_22_classwork
         }
 
         // min; go the left as much as possible with while loop until hit leaf (the end)
-
+        public T Min()
+        {
+            if (isEmpty())
+                throw new Exception("No values in an empty tree.");
+            Node<T> pointer = root;  // start at the root
+            while (pointer.Left != null)  // move left as long as there is one; if tree is empty, .Left will crash
+                pointer = pointer.Left;
+            return pointer.Value;  // return the left-most value
+        }
 
         // search; return null if not found, node reference if found
         public Node<T> Search(T valueToFind)
@@ -128,14 +149,12 @@ namespace _3_15_22_classwork
             }
         }
 
-
-        // traversals
-        // PREORDER (NLR)
+        // PREORDER TRAVERSAL (NLR)
         public void PreOrder(Node<T> currentNode)  // gets split into L and R method calls with recursion
         {
             if (currentNode != null)
             {
-                Console.WriteLine(currentNode.Value);  // N
+                Console.Write($"{currentNode.Value} ");  // N
                 PreOrder(currentNode.Left);  // L
                 PreOrder(currentNode.Right);  // R
             }
@@ -146,13 +165,13 @@ namespace _3_15_22_classwork
             PreOrder(root);
         }
 
-        // INORDER (LNR) - prints the tree values in order
+        // INORDER TRAVERSAL (LNR) - prints the tree values in order
         public void InOrder(Node<T> currentNode)  // gets split into L and R method calls with recursion
         {
             if (currentNode != null)
             {
                 InOrder(currentNode.Left);  // L
-                Console.WriteLine(currentNode.Value);  // N
+                Console.Write($"{currentNode.Value} ");  // N
                 InOrder(currentNode.Right);  // R
             }
         }
@@ -162,14 +181,14 @@ namespace _3_15_22_classwork
             InOrder(root);
         }
 
-        // POSTORDER (LRN)
+        // POSTORDER TRAVERSAL (LRN)
         public void PostOrder(Node<T> currentNode)  // gets split into L and R method calls with recursion
         {
             if (currentNode != null)
             {
                 PostOrder(currentNode.Left);  // L
                 PostOrder(currentNode.Right);  // R
-                Console.WriteLine(currentNode.Value);  // N
+                Console.Write($"{currentNode.Value} ");  // N
             }
         }
 
@@ -188,12 +207,10 @@ namespace _3_15_22_classwork
         {
             if (currentNode == null)
                 return 0;  // there are no leaves in an empty tree
-            else if (currentNode.Left != null && currentNode.Right == null)  // found the root with no children
+            else if (currentNode.Left == null && currentNode.Right == null)  // found the root with no children; only one node in tree
                 return 1;
-            else  // ask left side, ask right side, then add them up; do recursively 
+            else  // ask left side, ask right side, add them up; do recursively 
                 return CountLeafNodesHelper(currentNode.Left) + CountLeafNodesHelper(currentNode.Right);
         }
-
-        // CONSTRUCTOR
     }
 }
