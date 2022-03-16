@@ -21,3 +21,11 @@
 - Method to display values in array
 - Random number generator to populate array
 - Stopwatch
+#### 2-15-22
+- 
+#### 2-22-22
+- 
+#### 3-1-22
+- 
+#### 3-15-22
+- Binary search tree
