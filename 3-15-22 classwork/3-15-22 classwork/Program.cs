@@ -13,7 +13,7 @@ namespace _3_15_22_classwork
             myTree.Add(3);
             myTree.Add(18);
             myTree.Add(12);
-            // put break point here, run, in watch window put in myTree and can see how tree is structured
+            // put break point here, run, in watch window put in myTree and see how tree is structured
 
             Console.Write("PreOrder values: ");
             myTree.PrintPreOrder();
@@ -37,6 +37,7 @@ namespace _3_15_22_classwork
 
     class Node<T>
     {
+        // DATA
         public T Value { get; set; }
         public Node<T> Left { get; set; }
         public Node<T> Right { get; set; }
@@ -56,58 +57,57 @@ namespace _3_15_22_classwork
         public int Count { get; private set; }  // number of nodes in the tree
 
         // METHODS
-        // isempty; check the root, or if count is 0
+        
         public bool isEmpty()
         {
-            return root == null;
+            // can check if the root is empty, or check if count is 0
+            return root == null;  // returns true or false
         }
 
-        // max; go the right as much as possible with while loop until hit leaf (the end)
+        // max: go the right as much as possible with while loop until leaf is hit (the end of the branch)
         public T Max()
         {
-            if (isEmpty())
-                throw new Exception("No values in an empty tree.");
+            if (isEmpty())  // if tree is empty, pointer.Right will crash the program
+                throw new Exception("No max value in an empty tree.");
             Node<T> pointer = root;  // start at the root
-            while (pointer.Right != null)  // move right as long as there is one; if tree is empty, .Right will crash
+            while (pointer.Right != null)  // move right as long as there is a next node
                 pointer = pointer.Right;
             return pointer.Value;  // return the right-most value
         }
 
-        // min; go the left as much as possible with while loop until hit leaf (the end)
+        // min: go the left as much as possible with while loop until leaf is hit (the end of the branch)
         public T Min()
         {
-            if (isEmpty())
-                throw new Exception("No values in an empty tree.");
+            if (isEmpty())  // if tree is empty, pointer.Left will crash the program
+                throw new Exception("No min value in an empty tree.");
             Node<T> pointer = root;  // start at the root
-            while (pointer.Left != null)  // move left as long as there is one; if tree is empty, .Left will crash
+            while (pointer.Left != null)  // move left as long as there is a next node
                 pointer = pointer.Left;
             return pointer.Value;  // return the left-most value
         }
 
-        // search; return null if not found, node reference if found
+        // search: return null if not found, return node reference if found
         public Node<T> Search(T valueToFind)
         {
             if (isEmpty())
                 return null;  // the value is not in an empty list
-            
-            Node<T> pointer = root;
-            
-            while (pointer != null)
+            Node<T> pointer = root;  // start at the root
+            while (pointer != null)  // while there are still nodes to search
             {
-                // compare
+                // compare the value of the pointer to valueToFind
+                // CompareTo results: -1 if pointer.Value is smaller, 0 if there's a match, 1 if pointer.Value is larger
                 if (pointer.Value.CompareTo(valueToFind) == 0)
                     return pointer;  // value was found
                 else if (valueToFind.CompareTo(pointer.Value) < 0)
                     pointer = pointer.Left;  // move left
                 else
                     pointer = pointer.Right;  // move right
-
             }
             // you get here when pointer == null
             return null;  // couldn't find value in tree
         }
 
-        // add new value; can return the new node instead of void
+        // add new value (can return the new node instead of void)
         public void Add(T newValue)
         {
             // create a new node
@@ -120,43 +120,47 @@ namespace _3_15_22_classwork
             else
             {
                 // traverse to the point where to link the new node to the tree
-                Node<T> pointer = root;
-                while (pointer != null)  //  while (true) works also and is more efficient b/c doesn't have to compare each time
+                Node<T> pointer = root;  // start at the root
+                // while (true) works also and is more efficient because the program doesn't have to compare each time
+                // (just make sure there are breaks/exceptions throughout so it's not an infinite loop)
+                while (pointer != null)  // while there are still nodes in the tree
                 {
+                    // CompareTo results: -1 if newValue is smaller, 0 if there's a match, 1 if newValue is larger
                     if (newValue.CompareTo(pointer.Value) <= 0)  // <= move left
                     {
-                        // is there a left?
-                        if (pointer.Left != null)  // if there is left
+                        // is there a left node?
+                        if (pointer.Left != null)  // if there is a left node
                             pointer = pointer.Left;  // move left
-                        else // there is no left, add new node to left
+                        else // there is no left node, add newNode to left
                         {
-                            pointer.Left = newNode;  // link the new node to the left
+                            pointer.Left = newNode;  // link in newNode
                             break;  // newNode is added to tree so break out of the while loop
                         }
                     }
                     else // > move right; there is no R add node to R
                     {
-                        // is there a right?
-                        if (pointer.Right != null)  // if there is right
-                            pointer = pointer.Right;
-                        else // there is no right add new node to R
+                        // is there a right node?
+                        if (pointer.Right != null)  // if there is a right node
+                            pointer = pointer.Right;  // move right
+                        else // there is no right node, add newNode to right
                         {
-                            pointer.Right = newNode;
-                            break;
+                            pointer.Right = newNode;  // link in newNode
+                            break;  // newNode is added to tree so break out of the while loop
                         }
                     }
                 }
             }
         }
 
-        // PREORDER TRAVERSAL (NLR)
-        public void PreOrder(Node<T> currentNode)  // gets split into L and R method calls with recursion
+        // PREORDER TRAVERSAL (Node Left Right)
+        // gets split into L and R method calls with recursion
+        public void PreOrder(Node<T> currentNode)  
         {
             if (currentNode != null)
             {
-                Console.Write($"{currentNode.Value} ");  // N
-                PreOrder(currentNode.Left);  // L
-                PreOrder(currentNode.Right);  // R
+                Console.Write($"{currentNode.Value} ");  // Node
+                PreOrder(currentNode.Left);  // Left
+                PreOrder(currentNode.Right);  // Right
             }
         }
 
@@ -165,14 +169,15 @@ namespace _3_15_22_classwork
             PreOrder(root);
         }
 
-        // INORDER TRAVERSAL (LNR) - prints the tree values in order
-        public void InOrder(Node<T> currentNode)  // gets split into L and R method calls with recursion
+        // INORDER TRAVERSAL (Left Node Right) - prints the tree values in order from smallest to largest
+        // gets split into L and R method calls with recursion
+        public void InOrder(Node<T> currentNode)
         {
             if (currentNode != null)
             {
-                InOrder(currentNode.Left);  // L
-                Console.Write($"{currentNode.Value} ");  // N
-                InOrder(currentNode.Right);  // R
+                InOrder(currentNode.Left);  // Left
+                Console.Write($"{currentNode.Value} ");  // Node
+                InOrder(currentNode.Right);  // Right
             }
         }
 
@@ -181,14 +186,15 @@ namespace _3_15_22_classwork
             InOrder(root);
         }
 
-        // POSTORDER TRAVERSAL (LRN)
-        public void PostOrder(Node<T> currentNode)  // gets split into L and R method calls with recursion
+        // POSTORDER TRAVERSAL (Left Right Node)
+        // gets split into L and R method calls with recursion
+        public void PostOrder(Node<T> currentNode)
         {
             if (currentNode != null)
             {
-                PostOrder(currentNode.Left);  // L
-                PostOrder(currentNode.Right);  // R
-                Console.Write($"{currentNode.Value} ");  // N
+                PostOrder(currentNode.Left);  // Left
+                PostOrder(currentNode.Right);  // Right
+                Console.Write($"{currentNode.Value} ");  // Node
             }
         }
 
