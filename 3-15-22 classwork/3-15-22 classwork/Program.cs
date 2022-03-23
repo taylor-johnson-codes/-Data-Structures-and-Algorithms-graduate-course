@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;  // for queue
 
 namespace _3_15_22_classwork
 {
@@ -6,32 +7,73 @@ namespace _3_15_22_classwork
     {
         static void Main(string[] args)
         {
+            //BST<int> myTree = new BST<int>();
+            //myTree.Add(12);
+            //myTree.Add(5);
+            //myTree.Add(22);
+            //myTree.Add(3);
+            //myTree.Add(18);
+            //myTree.Add(12);
+            //// put break point here, run, in watch window put in myTree and see how tree is structured
+
+            //Console.Write("PreOrder values: ");
+            //myTree.PrintPreOrder();
+            //Console.WriteLine();
+
+            //Console.Write("InOrder values: ");
+            //myTree.PrintInOrder();
+            //Console.WriteLine();
+
+            //Console.Write("PostOrder values: ");
+            //myTree.PrintPostOrder();
+            //Console.WriteLine();
+
+            //Console.WriteLine($"Min value: {myTree.Min()}");
+            //Console.WriteLine($"Max value: {myTree.Max()}");
+
+            //Console.WriteLine($"Number of leaf nodes: {myTree.CountLeafNodes()}");
+
+            //Hanoi(1, 'A', 'B', 'C');  // 1 move
+            //Hanoi(2, 'A', 'B', 'C');  // 2 moves, 3 7 moves, 4 15 moves 2^n - 1
+            //Hanoi(10, 'A', 'B', 'C');
+
             BST<int> myTree = new BST<int>();
-            myTree.Add(12);
-            myTree.Add(5);
-            myTree.Add(22);
+            myTree.Add(14);
+            myTree.Add(9);
+            myTree.Add(20);
             myTree.Add(3);
-            myTree.Add(18);
-            myTree.Add(12);
-            // put break point here, run, in watch window put in myTree and see how tree is structured
+            myTree.Add(10);
+            myTree.Add(19);
+            myTree.Add(45);
+            myTree.Add(3);
+            myTree.Add(7);
+            myTree.Add(15);
+            myTree.Add(20);
+            myTree.Add(1);
+            myTree.Add(8);
 
-            Console.Write("PreOrder values: ");
-            myTree.PrintPreOrder();
-            Console.WriteLine();
+            //Console.WriteLine(myTree.MyMainCount3());
 
-            Console.Write("InOrder values: ");
-            myTree.PrintInOrder();
-            Console.WriteLine();
+            //Console.WriteLine(myTree.CountLeafNodes());
 
-            Console.Write("PostOrder values: ");
-            myTree.PrintPostOrder();
-            Console.WriteLine();
+            myTree.BreadthFirstSearch();  // displays nodes level by level left to right 
 
-            Console.WriteLine($"Min value: {myTree.Min()}");
-            Console.WriteLine($"Max value: {myTree.Max()}");
 
-            Console.WriteLine($"Number of leaf nodes: {myTree.CountLeafNodes()}");
+        }
 
+        // Tower of Hanoi (recursion example)
+        static void Hanoi(int n, char start, char end, char temp)
+        {
+            if (n>=1)  // so n-1 doesn't go forever in recursion
+            {
+                Hanoi(n - 1, start, temp, end);  // recursive call
+                Console.WriteLine($"Move disk {n} from {start} onto {end}");
+                Hanoi(n - 1, temp, end, start);  // recursive call
+            }
+            //else  // base case
+            //{
+            //    // do nothing
+            //}
         }
     }
 
@@ -108,6 +150,8 @@ namespace _3_15_22_classwork
         }
 
         // add new value (can return the new node instead of void)
+        // running time worst case O(n) - unbalanced tree - SAME FOR SEARCH
+        // 
         public void Add(T newValue)
         {
             // create a new node
@@ -175,9 +219,9 @@ namespace _3_15_22_classwork
         {
             if (currentNode != null)
             {
-                InOrder(currentNode.Left);  // Left
-                Console.Write($"{currentNode.Value} ");  // Node
-                InOrder(currentNode.Right);  // Right
+                InOrder(currentNode.Left);  // Left (recursively call the method on the left subtree)
+                Console.Write($"{currentNode.Value} ");  // Node (visit the currentNode)
+                InOrder(currentNode.Right);  // Right (recursively call the method on the right subtree)
             }
         }
 
@@ -203,7 +247,7 @@ namespace _3_15_22_classwork
             PostOrder(root);
         }
 
-        // find sum of leaf nodes
+        // find how many leaf nodes the tree contains
         public int CountLeafNodes()
         {
             return CountLeafNodesHelper(root);
@@ -211,12 +255,124 @@ namespace _3_15_22_classwork
 
         public int CountLeafNodesHelper(Node<T> currentNode)
         {
+            // ask left side, ask right side, add them up; do recursively 
             if (currentNode == null)
                 return 0;  // there are no leaves in an empty tree
-            else if (currentNode.Left == null && currentNode.Right == null)  // found the root with no children; only one node in tree
+            else if (currentNode.Left == null && currentNode.Right == null)  // check if it is a leaf node; if it is it counts as 1 node
                 return 1;
-            else  // ask left side, ask right side, add them up; do recursively 
+            else  
                 return CountLeafNodesHelper(currentNode.Left) + CountLeafNodesHelper(currentNode.Right);
+        }
+
+
+
+
+        // inorder count
+        public void MyCount()
+        {
+            int myCount = 0;
+            Count2(root, ref myCount);
+        }
+        // using inOrder code
+        public void Count2(Node<T> currentNode, ref int myCount)
+        {
+            if (currentNode != null)
+            {
+                Count2(currentNode.Left, ref myCount);  // Left (recursively call the method on the left subtree)
+                myCount++;
+                Count2(currentNode.Right, ref myCount);  // Right (recursively call the method on the right subtree)
+            }
+        }
+
+        public int MyCount3(Node<T> currentNode)
+        {
+            //MyCount3(currentNode.Left);  // propagate to the left subtree
+            //MyCount3(currentNode.Right);  // propagate to the right subtree
+            //return Left + Right + 1
+
+            if (currentNode == null)
+                return 0;
+            return MyCount3(currentNode.Left) + MyCount3(currentNode.Right) + 1;
+        }
+
+        public int MyMainCount3()
+        {
+            return MyCount3(root);
+        }
+
+        // find height of the tree
+        // find the deepest leaf (lowest level leaf)
+        // find number of edges (lines between nodes); that is the height;
+        public int Height()
+        {
+            return HeightHelper(root);
+        }
+
+        public int HeightHelper(Node<T> currentNode)
+        {
+            if (currentNode == null)
+                return -1;  // need to undo an extra 1 from the +1 below
+            return Math.Max(HeightHelper(currentNode.Left), HeightHelper(currentNode.Right)) + 1;
+        }
+
+        // these comments might be for homework:
+        // traverse level by level (snake from top to bottom horizontally)
+        // not using recursion
+        // create a queue, dequeue and enqueue level by level
+
+        // traverse level by level (snake from top to bottom horizontally)
+        public void BreadthFirstSearch()
+        {
+            Queue<Node<T>> myQueue = new Queue<Node<T>>();  // a new empty queue
+
+            if (root != null)
+            {
+                myQueue.Enqueue(root);  // put root in queue
+
+                while (myQueue.Count > 0)
+                {
+                    // dequeue and display
+                    Node<T> pointer = myQueue.Dequeue();
+                    Console.Write($"{pointer.Value} ");
+                    // enqueue left and right
+                    if (pointer.Left != null)  // don't put in queue if null
+                        myQueue.Enqueue(pointer.Left);
+                    if (pointer.Right != null) // don't put in queue if null
+                        myQueue.Enqueue(pointer.Right);
+                }
+                Console.WriteLine();
+            }
+        }
+
+        // use stack for depth first search to allow us to go backwards in the tree
+        // traverse level by level vertically
+        public void DepthFirstSearch()
+        {
+            Stack<Node<T>> myStack = new Stack<Node<T>>();  // a new empty stack
+
+            // need to add bool WasVisited to Node class and finish code from his in this method
+
+            if (root != null)
+            {
+                myStack.Push(root);  // put root in stack
+                //root.WasVisited = true;
+            }
+
+            while (myStack.Count > 0)
+            {
+                Node<T> pointer = myStack.Peek();
+                if (pointer.Left != null)
+                    myStack.Push(pointer.Left);  // go deeper on L side
+                else if (pointer.Right != null)
+                    myStack.Push(pointer.Right);  // go deeper on R side
+                else
+                    myStack.Pop();  // go back to the top
+
+
+
+
+            }
+            Console.WriteLine();
         }
     }
 }
