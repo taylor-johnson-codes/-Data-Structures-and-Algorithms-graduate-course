@@ -29,3 +29,6 @@
 - 
 #### 3-15-22
 - Binary search tree
+- Add a value, find a value, find max, find min, count all nodes, count leaf nodes, find height of tree, Breadth First Search, Depth First Search, PreOrder/InOrder/PostOrder traversals
+- Tower of Hanoi (recursion example)
+#### 3-29-22
