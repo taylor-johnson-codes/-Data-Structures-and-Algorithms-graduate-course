@@ -33,10 +33,6 @@ namespace _3_15_22_classwork
 
             //Console.WriteLine($"Number of leaf nodes: {myTree.CountLeafNodes()}");
 
-            //Hanoi(1, 'A', 'B', 'C');  // 1 move
-            //Hanoi(2, 'A', 'B', 'C');  // 2 moves, 3 7 moves, 4 15 moves 2^n - 1
-            //Hanoi(10, 'A', 'B', 'C');
-
             BST<int> myTree = new BST<int>();
             myTree.Add(14);
             myTree.Add(9);
@@ -58,13 +54,16 @@ namespace _3_15_22_classwork
 
             myTree.BreadthFirstSearch();  // displays nodes level by level left to right 
 
-
+            //Hanoi(1, 'A', 'B', 'C');  // 1 move
+            //Hanoi(2, 'A', 'B', 'C');  // 2 moves
+            // (3) would be 7 moves; (4) would be 15 moves; 2^n - 1
+            //Hanoi(10, 'A', 'B', 'C');
         }
 
         // Tower of Hanoi (recursion example)
         static void Hanoi(int n, char start, char end, char temp)
         {
-            if (n>=1)  // so n-1 doesn't go forever in recursion
+            if (n >= 1)  // so n-1 doesn't go forever in recursion
             {
                 Hanoi(n - 1, start, temp, end);  // recursive call
                 Console.WriteLine($"Move disk {n} from {start} onto {end}");
@@ -83,6 +82,8 @@ namespace _3_15_22_classwork
         public T Value { get; set; }
         public Node<T> Left { get; set; }
         public Node<T> Right { get; set; }
+        public bool WasVisited { get; set; }  // for DepthFirstSearch()
+
 
         // CONSTRUCTOR
         public Node(T newValue)
@@ -99,7 +100,6 @@ namespace _3_15_22_classwork
         public int Count { get; private set; }  // number of nodes in the tree
 
         // METHODS
-        
         public bool isEmpty()
         {
             // can check if the root is empty, or check if count is 0
@@ -129,6 +129,7 @@ namespace _3_15_22_classwork
         }
 
         // search: return null if not found, return node reference if found
+        // running time worst case O(n) - unbalanced tree
         public Node<T> Search(T valueToFind)
         {
             if (isEmpty())
@@ -150,8 +151,7 @@ namespace _3_15_22_classwork
         }
 
         // add new value (can return the new node instead of void)
-        // running time worst case O(n) - unbalanced tree - SAME FOR SEARCH
-        // 
+        // running time worst case O(n) - unbalanced tree
         public void Add(T newValue)
         {
             // create a new node
@@ -181,7 +181,7 @@ namespace _3_15_22_classwork
                             break;  // newNode is added to tree so break out of the while loop
                         }
                     }
-                    else // > move right; there is no R add node to R
+                    else // > move right
                     {
                         // is there a right node?
                         if (pointer.Right != null)  // if there is a right node
@@ -195,6 +195,69 @@ namespace _3_15_22_classwork
                 }
             }
         }
+
+        // TRAVERSAL METHODS:
+
+        // Breadth First Traversal for searching
+        // traverse level by level (horizontally; from top level to bottom level)
+        public void BreadthFirstSearch()
+        {
+            Queue<Node<T>> myQueue = new Queue<Node<T>>();  // a new empty queue
+
+            // add root to the queue
+            if (root != null)
+                myQueue.Enqueue(root);
+
+            while (myQueue.Count > 0)
+            {
+                // dequeue and display
+                Node<T> pointer = myQueue.Dequeue();
+                Console.Write($"{pointer.Value} ");
+                // enqueue left and right
+                if (pointer.Left != null)  // don't put in queue if null
+                    myQueue.Enqueue(pointer.Left);
+                if (pointer.Right != null) // don't put in queue if null
+                    myQueue.Enqueue(pointer.Right);
+            }
+            Console.WriteLine();
+        }
+
+        // Depth First Traversal (vertical traversals) for searching
+        // use stack for depth first search to allow us to go backwards in the tree
+        public void DepthFirstSearch()
+        {
+            Stack<Node<T>> myStack = new Stack<Node<T>>();  // a new empty stack
+
+            if (root != null)
+            {
+                myStack.Push(root);  // put root in stack
+                Console.WriteLine(root.Value);
+                root.WasVisited = true;  // to know that we don't need to visit it again
+            }
+
+            while (myStack.Count > 0)
+            {
+                Node<T> pointer = myStack.Peek();  // pointer is set to what's on top of the stack
+
+                if (pointer.Left != null && pointer.Left.WasVisited == false)
+                {
+                    myStack.Push(pointer.Left);  // go deeper on left side
+                    Console.WriteLine(pointer.Left.Value);
+                    pointer.Left.WasVisited = true;
+                }
+                else if (pointer.Right != null && pointer.Right.WasVisited == false)
+                {
+                    myStack.Push(pointer.Right);  // go deeper on right side
+                    Console.WriteLine(pointer.Right.Value);
+                    pointer.Right.WasVisited = true;
+                }
+                else 
+                    myStack.Pop();  // go back to the top
+            }
+            Console.WriteLine();
+        }
+
+        // Note: PreOrder, InOrder, and PostOrder traversals are considered Depth First Traversals
 
         // PREORDER TRAVERSAL (Node Left Right)
         // gets split into L and R method calls with recursion
@@ -230,6 +293,41 @@ namespace _3_15_22_classwork
             InOrder(root);
         }
 
+        public void InOrderCount()
+        {
+            int myCount = 0;  // will be passed by reference so this myCount will be updated
+            InOrderCountHelper(root, ref myCount);
+            Console.WriteLine(myCount);
+        }
+
+        public void InOrderCountHelper(Node<T> currentNode, ref int myCount)
+        {
+            if (currentNode != null)
+            {
+                InOrderCountHelper(currentNode.Left, ref myCount);  // Left (recursively call the method on the left subtree)
+                myCount++;  // "visit" the current node
+                InOrderCountHelper(currentNode.Right, ref myCount);  // Right (recursively call the method on the right subtree)
+            }
+        }
+
+        // can't remember what this method is for; maybe it's part of the InOrder stuff
+        public int MyCount3(Node<T> currentNode)
+        {
+            //MyCount3(currentNode.Left);  // propagate to the left subtree
+            //MyCount3(currentNode.Right);  // propagate to the right subtree
+            //return Left + Right + 1
+
+            if (currentNode == null)
+                return 0;
+            return MyCount3(currentNode.Left) + MyCount3(currentNode.Right) + 1;
+        }
+
+        // goes with the method above; can't remember what that method is for
+        public int MyMainCount3()
+        {
+            return MyCount3(root);
+        }
+
         // POSTORDER TRAVERSAL (Left Right Node)
         // gets split into L and R method calls with recursion
         public void PostOrder(Node<T> currentNode)
@@ -247,62 +345,8 @@ namespace _3_15_22_classwork
             PostOrder(root);
         }
 
-        // find how many leaf nodes the tree contains
-        public int CountLeafNodes()
-        {
-            return CountLeafNodesHelper(root);
-        }
-
-        public int CountLeafNodesHelper(Node<T> currentNode)
-        {
-            // ask left side, ask right side, add them up; do recursively 
-            if (currentNode == null)
-                return 0;  // there are no leaves in an empty tree
-            else if (currentNode.Left == null && currentNode.Right == null)  // check if it is a leaf node; if it is it counts as 1 node
-                return 1;
-            else  
-                return CountLeafNodesHelper(currentNode.Left) + CountLeafNodesHelper(currentNode.Right);
-        }
-
-
-
-
-        // inorder count
-        public void MyCount()
-        {
-            int myCount = 0;
-            Count2(root, ref myCount);
-        }
-        // using inOrder code
-        public void Count2(Node<T> currentNode, ref int myCount)
-        {
-            if (currentNode != null)
-            {
-                Count2(currentNode.Left, ref myCount);  // Left (recursively call the method on the left subtree)
-                myCount++;
-                Count2(currentNode.Right, ref myCount);  // Right (recursively call the method on the right subtree)
-            }
-        }
-
-        public int MyCount3(Node<T> currentNode)
-        {
-            //MyCount3(currentNode.Left);  // propagate to the left subtree
-            //MyCount3(currentNode.Right);  // propagate to the right subtree
-            //return Left + Right + 1
-
-            if (currentNode == null)
-                return 0;
-            return MyCount3(currentNode.Left) + MyCount3(currentNode.Right) + 1;
-        }
-
-        public int MyMainCount3()
-        {
-            return MyCount3(root);
-        }
-
-        // find height of the tree
-        // find the deepest leaf (lowest level leaf)
-        // find number of edges (lines between nodes); that is the height;
+        // find height of the tree; find the deepest leaf (lowest level leaf)
+        // the height is the number of edges (lines between nodes) from the root down to the deepest leaf
         public int Height()
         {
             return HeightHelper(root);
@@ -315,64 +359,20 @@ namespace _3_15_22_classwork
             return Math.Max(HeightHelper(currentNode.Left), HeightHelper(currentNode.Right)) + 1;
         }
 
-        // these comments might be for homework:
-        // traverse level by level (snake from top to bottom horizontally)
-        // not using recursion
-        // create a queue, dequeue and enqueue level by level
-
-        // traverse level by level (snake from top to bottom horizontally)
-        public void BreadthFirstSearch()
+        // find how many leaf nodes the tree contains (nodes that have no right or left node children attached to them)
+        public int CountLeafNodes()
         {
-            Queue<Node<T>> myQueue = new Queue<Node<T>>();  // a new empty queue
-
-            if (root != null)
-            {
-                myQueue.Enqueue(root);  // put root in queue
-
-                while (myQueue.Count > 0)
-                {
-                    // dequeue and display
-                    Node<T> pointer = myQueue.Dequeue();
-                    Console.Write($"{pointer.Value} ");
-                    // enqueue left and right
-                    if (pointer.Left != null)  // don't put in queue if null
-                        myQueue.Enqueue(pointer.Left);
-                    if (pointer.Right != null) // don't put in queue if null
-                        myQueue.Enqueue(pointer.Right);
-                }
-                Console.WriteLine();
-            }
+            return CountLeafNodesHelper(root);
         }
 
-        // use stack for depth first search to allow us to go backwards in the tree
-        // traverse level by level vertically
-        public void DepthFirstSearch()
+        public int CountLeafNodesHelper(Node<T> currentNode)
         {
-            Stack<Node<T>> myStack = new Stack<Node<T>>();  // a new empty stack
-
-            // need to add bool WasVisited to Node class and finish code from his in this method
-
-            if (root != null)
-            {
-                myStack.Push(root);  // put root in stack
-                //root.WasVisited = true;
-            }
-
-            while (myStack.Count > 0)
-            {
-                Node<T> pointer = myStack.Peek();
-                if (pointer.Left != null)
-                    myStack.Push(pointer.Left);  // go deeper on L side
-                else if (pointer.Right != null)
-                    myStack.Push(pointer.Right);  // go deeper on R side
-                else
-                    myStack.Pop();  // go back to the top
-
-
-
-
-            }
-            Console.WriteLine();
+            if (currentNode == null)
+                return 0;  // there are no leaves in an empty tree
+            else if (currentNode.Left == null && currentNode.Right == null)  // check if it is a leaf node; if it is it counts as 1
+                return 1;
+            else  // ask left side, ask right side, add them up; do recursively 
+                return CountLeafNodesHelper(currentNode.Left) + CountLeafNodesHelper(currentNode.Right);
         }
     }
 }
