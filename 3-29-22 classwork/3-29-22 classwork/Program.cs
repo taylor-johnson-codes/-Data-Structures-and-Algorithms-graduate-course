@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;  // to read from txt file
 using System.Collections;  // for ArrayList
-using System.Collections.Generic;  // for queue in BST method, 
+using System.Collections.Generic;  // for queue in BST method, and for Dictionary
 
 namespace _3_29_22_classwork
 {
@@ -9,124 +9,66 @@ namespace _3_29_22_classwork
     {
         static void Main(string[] args)
         {
-            // BST code here for unit testing, see UnitTest1 tab
+            // BST code here (from 3-15-22 classwork) for unit testing; see UnitTest1 tab
+            /*  How to add unit testing to a solution:
+                1.On the File menu, select Add > New Project.
+                2.Search for and select the C# MSTest Test Project (.NET Core) project template, and then click Next.
+                3.Name the project, e.g. StudentTests.
+                4.Click Create.
+                5.The StudentTests project is added to your solution.
+                5.In the StudentTests project, add a reference to your existing project.
+                6.In Solution Explorer, select Dependencies under the StudentTests project and then choose Add Reference from the right-click menu.
+                7.In the Reference Manager dialog box, expand Projects, select Solution, and then check your project.
+                8.Choose OK.
+             */
 
-            //// using System.Collections; 
-            //// stores everything as an object in the background so don't have to specify data type; not type-safe
-            //ArrayList list = new ArrayList();  
-            //list.Add(10);  // "boxing" changes it into an object
-            //list.Add("SMU");
-            //Console.WriteLine(list[0]);  // "unboxing"
-            //Console.WriteLine((int)list[0] + 10);  // "unboxing"
+            // using System.Collections; 
+            // stores everything as an object in the background so don't have to specify data type; not type-safe
+            ArrayList list = new ArrayList();
+            list.Add(10);  // "boxing" changes it into an object
+            list.Add("SMU");  // "boxing"
+            Console.WriteLine(list[0]);  // "unboxing"
+            Console.WriteLine((int)list[0] + 10);  // "unboxing"
 
-            //// using System.Collections.Generic;
-            //// type-safe; avoids boxing and unboxing
-            //List<int> list2 = new List<int>();
-            //list2.Add(10);
-            ////list2.Add("SMU");  // illegal
-            //Console.WriteLine(list2[0] + 10);
+            // using System.Collections.Generic;
+            // type-safe; avoids boxing and unboxing
+            List<int> list2 = new List<int>();
+            list2.Add(10);
+            //list2.Add("SMU");  // illegal because list2 is set to int data type
+            Console.WriteLine(list2[0] + 10);
+            Console.WriteLine();
 
-            //////////////////////////////////////////
+            //------------------------------------------------------------------------------------------------------//
 
-            // display frequency of each letter in file
-            // create a frequency table for some given text
-            // streamreader better for large text files
+            // create a frequency table to display the frequency of each character in an external txt file
+            // streamreader is better for large text files
 
             // read data from file
-            string text = File.ReadAllText("random_words.txt");   // text is now in memory in one long string
+            string text = File.ReadAllText("random_words.txt");  // text is now in memory in one long string
 
             // create a dictionary/hash table
+            // for a frequency table we'll use char <-- TKey, int <-- TValuue
             Dictionary<char, int> freqTable = new Dictionary<char, int>();
 
             // traverse the string, char by char
-            foreach (char letter in text)
+            foreach (char character in text)
             {
-                if (Char.IsLetterOrDigit(letter))
+                if (Char.IsLetterOrDigit(character))
                 {
                     // letter is key, freqTable[letter] is value
                     // if key exists, increase frequency
-                    if (freqTable.ContainsKey(letter))
-                        freqTable[letter]++;
+                    if (freqTable.ContainsKey(character))
+                        freqTable[character]++;
                     else  // key doesn't exist, add new key/value entry
-                        freqTable.Add(letter, 1); 
+                        freqTable.Add(character, 1); 
                 }
-
             }
 
             // display the frequency table
-            foreach (char letter in freqTable.Keys)
+            foreach (char character in freqTable.Keys)
             {
-                Console.WriteLine($"{letter} ({(int)letter}) has frequency {freqTable[letter]}");  // (int)letter to get unicode
+                Console.WriteLine($"{character} ({(int)character}) has frequency {freqTable[character]}");  // (int)letter to get unicode
             }
-
-
-
-            //BST<int> myTree = new BST<int>();
-            //myTree.Add(12);
-            //myTree.Add(5);
-            //myTree.Add(22);
-            //myTree.Add(3);
-            //myTree.Add(18);
-            //myTree.Add(12);
-            //// put break point here, run, in watch window put in myTree and see how tree is structured
-
-            //Console.Write("PreOrder values: ");
-            //myTree.PrintPreOrder();
-            //Console.WriteLine();
-
-            //Console.Write("InOrder values: ");
-            //myTree.PrintInOrder();
-            //Console.WriteLine();
-
-            //Console.Write("PostOrder values: ");
-            //myTree.PrintPostOrder();
-            //Console.WriteLine();
-
-            //Console.WriteLine($"Min value: {myTree.Min()}");
-            //Console.WriteLine($"Max value: {myTree.Max()}");
-
-            //Console.WriteLine($"Number of leaf nodes: {myTree.CountLeafNodes()}");
-
-            BST<int> myTree = new BST<int>();
-            myTree.Add(14);
-            myTree.Add(9);
-            myTree.Add(20);
-            myTree.Add(3);
-            myTree.Add(10);
-            myTree.Add(19);
-            myTree.Add(45);
-            myTree.Add(3);
-            myTree.Add(7);
-            myTree.Add(15);
-            myTree.Add(20);
-            myTree.Add(1);
-            myTree.Add(8);
-
-            //Console.WriteLine(myTree.MyMainCount3());
-
-            //Console.WriteLine(myTree.CountLeafNodes());
-
-            myTree.BreadthFirstSearch();  // displays nodes level by level left to right 
-
-            //Hanoi(1, 'A', 'B', 'C');  // 1 move
-            //Hanoi(2, 'A', 'B', 'C');  // 2 moves
-            // (3) would be 7 moves; (4) would be 15 moves; 2^n - 1
-            //Hanoi(10, 'A', 'B', 'C');
-        }
-
-        // Tower of Hanoi (recursion example)
-        static void Hanoi(int n, char start, char end, char temp)
-        {
-            if (n >= 1)  // so n-1 doesn't go forever in recursion
-            {
-                Hanoi(n - 1, start, temp, end);  // recursive call
-                Console.WriteLine($"Move disk {n} from {start} onto {end}");
-                Hanoi(n - 1, temp, end, start);  // recursive call
-            }
-            //else  // base case
-            //{
-            //    // do nothing
-            //}
         }
     }
 
