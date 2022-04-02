@@ -17,9 +17,12 @@ namespace MyUnitTests
 
             // Act
             int actualMax = myTree.Max();
+            int expectedMax = 20;
 
             // Assert (check your work)
-            Assert.AreEqual(actualMax, 20);  // what you're expecting
+            Assert.AreEqual(actualMax, expectedMax);
+
+            // Test file menu --> run all tests
         }
 
         [TestMethod]
@@ -33,9 +36,10 @@ namespace MyUnitTests
 
             // Act
             int actualMax = myTree.Max();
+            int expectedMax = 15;
 
             // Assert (check your work)
-            Assert.AreEqual(actualMax, 15);  // what you're expecting
+            Assert.AreEqual(actualMax, expectedMax);
 
             // Test file menu --> run all tests
         }
@@ -50,9 +54,28 @@ namespace MyUnitTests
 
             // Act
             int actualCount = myTree.Count;
+            int expectedCount = 2;
 
             // Assert (check your work)
-            Assert.AreEqual(actualCount, 2);  // what you're expecting
+            Assert.AreEqual(actualCount, expectedCount);
+
+            // Test file menu --> run all tests
+        }
+
+        [TestMethod]
+        public void TestCountPropertyFAIL()
+        {
+            // Arrange
+            BST<int> myTree = new BST<int>();
+            myTree.Add(10);
+            myTree.Add(10);
+
+            // Act
+            int actualCount = myTree.Count;
+            int expectedCount = 1;
+
+            // Assert (check your work)
+            Assert.AreEqual(actualCount, expectedCount);
 
             // Test file menu --> run all tests
         }
