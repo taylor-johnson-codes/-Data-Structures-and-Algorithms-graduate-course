@@ -32,3 +32,15 @@
 - Add a value, find a value, find max, find min, count all nodes, count leaf nodes, find height of tree, Breadth First Search, Depth First Search, PreOrder/InOrder/PostOrder traversals
 - Tower of Hanoi (recursion example)
 #### 3-29-22
+- Unit testing
+- ArrayList from System.Collections (items stored as objects, requires boxing/unboxing, not type-safe)
+- List from System.Collections.Generic (type-safe)
+- Dictionary, read txt file, create/display frequency of each character in the txt file
+#### 4-5-22
+- 
+#### 4-12-22
+- 
+#### 4-19-22
+- 
+#### 4-26-22
+-
