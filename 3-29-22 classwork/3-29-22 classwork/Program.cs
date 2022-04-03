@@ -16,10 +16,10 @@ namespace _3_29_22_classwork
                 3.Name the project, e.g. StudentTests.
                 4.Click Create.
                 5.The StudentTests project is added to your solution.
-                5.In the StudentTests project, add a reference to your existing project.
-                6.In Solution Explorer, select Dependencies under the StudentTests project and then choose Add Reference from the right-click menu.
-                7.In the Reference Manager dialog box, expand Projects, select Solution, and then check your project.
-                8.Choose OK.
+                6.In the StudentTests project, add a reference to your existing project (step 7).
+                7.In Solution Explorer, select Dependencies under the StudentTests project and then choose Add Reference from the right-click menu.
+                8.In the Reference Manager dialog box, expand Projects, select Solution, and then check your project.
+                9.Choose OK.
              */
 
             // using System.Collections; 
