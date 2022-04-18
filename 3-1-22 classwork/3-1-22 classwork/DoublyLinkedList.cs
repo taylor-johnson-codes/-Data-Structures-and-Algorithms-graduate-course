@@ -5,158 +5,96 @@ namespace MyLibrary
     internal class DoublyLinkedList<T> where T : IComparable  // for .CompareTo()
     {
         // DATA SECTION
-        // initialized to point to null by default  
+        // initialized to point to null by default, so explicit constructor not needed for this
         public Node<T> Head { get; private set; }
         public Node<T> Tail { get; private set; }
 
         // METHOD(S) SECTION
-        public void AddFirst(T newValue)  // works on empty list or populated list
+        public void AddFirst(T newValue)  // works on empty list or populated list; running time O(1)
         {
-            ////my code:
-            //// create a new node
-            //Node<T> newNode = new Node<T>(newValue);
-
-            //// link in the new node
-            //newNode.Next = Head;  // newNode's forward pointer is now pointing to the first node in the linked list
-            //newNode.Previous = null; // newNode's backward pointer points to null because the first node doesn't have an nodes before it
-
-            //// move the Previous pointer
-            //if (!IsEmpty())  // Head.Previous would crash the program if the list was empty
-            //    Head.Previous = newNode;  // Head is now second in the list so Head.Previous points to newNode because that's the first in the list
-
-            //// move the Head pointer
-            //Head = newNode;  // now Head points to the first in the list
-
-            //his codeL
+            // create a new node
             Node<T> newNode = new Node<T>(newValue);
 
-            if (IsEmpty())
+            if (IsEmpty())  // if the list is empty, the newNode will be the only node in the list
             {
                 Head = newNode;
                 Tail = newNode;
             }
-            else
+            else  // if the list is NOT empty
             {
-                //link it in - as a first node
-                newNode.Next = Head;
-                Head.Previous = newNode;
+                // link in the new node as the first node
+                newNode.Next = Head;  // newNode's forward pointer is now pointing to the first node in the linked list
+                Head.Previous = newNode;  // Head is now second in the list so Head.Previous points to newNode because that's the first in the list
 
-                //change the head
-                Head = newNode;
+                // update the head
+                Head = newNode;  // now Head points to the first node in the list
             }
         }
 
-        public void AddLast(T newValue)
+        public void AddLast(T newValue)  // running time O(1)
         {
-            ////my code:
-            //if (IsEmpty())
-            //    AddFirst(newValue);  // if the list is empty, the AddLast() code in the else block won't work; AddFirst() will work
-            //else
-            //{
-            //    Node<T> newNode = new Node<T>(newValue);  // create a new node contains newValue
-
-            //    Node<T> lastNode = Head;  // used in the while loop to find the last node in the list
-            //    while (lastNode.Next != null)  // stops at the last node to assign lastNode to the last node in the list
-            //        lastNode = lastNode.Next;
-
-            //    lastNode.Next = newNode;  // adding newNode to the end of the list; now lastNode represents the second to last node
-            //    newNode.Next = null;  // there is nothing after the last node to point to
-            //    newNode.Previous = lastNode;  // updates newNode's pointer to point to the second to last node
-            //    Tail = newNode;  // updated Tail to point to the last node in the list
-            //}
-
-            //his code:
+            // create a new node
             Node<T> newNode = new Node<T>(newValue);
 
-            if (IsEmpty())
+            if (IsEmpty())  // if the list is empty, the newNode will be the only node in the list
             {
                 Head = newNode;
                 Tail = newNode;
             }
-            else
+            else  // if the list is NOT empty
             {
-                //link it in - as a first node
-                newNode.Previous = Tail;
-                Tail.Next = newNode;
+                // link in the new node as the last node
+                newNode.Previous = Tail;  // newNode's backward pointer is now pointing to the last node in the linked list
+                Tail.Next = newNode;  // Tail is now second to last in the list so Tail.Next points to newNode because that's the last in the list
 
-                //change the head
-                Tail = newNode;
+                // update the tail
+                Tail = newNode;  // now Tail points to the last node in the list
             }
         }
 
-        public void DeleteFirst()  // this works in a list with only one element
+        public void DeleteFirst()  // running time O(1)
         {
-            ////mine:
-            //if (IsEmpty())
-            //    throw new Exception("You can't delete from an empty list.");  // this crashes and lets the user know what's wrong; if head points to null (list is empty), Head.Next will crash the code
-            //else
-            //    Head = Head.Next;  // moving Head to point to the second node in the list to cut off the first node
-            //Head.Previous = null;  // there is nothing before the first node to point to
-
-            //his:
             if (IsEmpty())
-            {
-                throw new Exception("You can't delete from an empty list");
-            }
-            else if (Head.Next == null)//you only have one node
+                throw new Exception("You can't delete from an empty list.");
+                // this crashes and lets the user know what's wrong; if head points to null (list is empty), Head.Next will crash the code
+            else if (Head.Next == null)  // the list only has one node, the head node
             {
                 Tail = null;
                 Head = null;
             }
-            else //you have at least two nodes
+            else  // there are two or more nodes in the list
             {
-                //move the head
+                // move the head
                 Head = Head.Next;
 
-                //delete the links to the previous head
+                // delete the links to the previous head
                 Head.Previous.Next = null;
                 Head.Previous = null;
             }
         }
 
-        public void DeleteLast()
+        public void DeleteLast()  // running time O(1)
         {
-            ////my code:
-            //if (IsEmpty())
-            //    throw new Exception("You can't delete from an empty list.");  // this crashes and lets the user know what's wrong; pointer.Next.Next will be invalid causing the crash
-            //else if (Head.Next == null)  // list has one node
-            //    DeleteFirst();  // if the list only has one node, the code in the else block won't work, but DeleteFirst() will work
-            //else  // make second to last node point to null
-            //{
-            //    // traverse to the second to last node with pointer
-            //    Node<T> pointer = Head;
-
-            //    // look two steps ahead; if it's not null move the pointer; if it's null this is where to stop so pointer points to second to last node
-            //    while (pointer.Next.Next != null)
-            //        pointer = pointer.Next;
-
-            //    // link the last node out (pointer points to second to last node here)
-            //    pointer.Next = null;  // now the last node is cut off from the list
-            //    Tail = pointer;  // now Tail points to the last node in the list
-            //}
-
-            //his code:
             if (IsEmpty())
-            {
                 throw new Exception("You can't delete from an empty list");
-            }
-            else if (Head.Next == null)//you only have one node
+            else if (Head.Next == null)  // the list only has one node, the head node
             {
                 Tail = null;
                 Head = null;
             }
-            else //you have at least two nodes
+            else  // there are two or more nodes in the list
             {
-                //move the Tail
+                // move the Tail
                 Tail = Tail.Previous;
 
-                //delete the links to the previous tail
+                // delete the links to the previous tail
                 Tail.Next.Previous = null;
                 Tail.Next = null;
             }
         }
 
-        public void DeleteValue(T valueToDelete)  // deletes the first value it finds that matches; won't delete all if the value appears more than once in the list
+        public void DeleteValue(T valueToDelete)  // running time O(n)  
+        // deletes the first value it finds that matches; won't delete all if the value appears more than once in the list
         {
             if (IsEmpty())
                 throw new Exception("You can't delete from an empty list.");  // this crashes and lets the user know what's wrong
@@ -185,39 +123,10 @@ namespace MyLibrary
             }
         }
 
-        ////my method:
-        //public void DeleteNode(int nodePlaceNumber)  // e.g. DeleteNode(2) deletes the second node in the list
-        //{
-        //    if (nodePlaceNumber < 1)
-        //        throw new Exception("You must enter a positive integer for the node number.");
-        //    else if (IsEmpty())
-        //        throw new Exception("The list is empty; you can't delete from an empty list.");
-        //    else if (Head.Next == null && nodePlaceNumber > 1)
-        //        throw new Exception($"The list only contains one node, so {nodePlaceNumber} isn't a valid node number to delete.");
-        //    else if (Head.Next == null && nodePlaceNumber == 1)
-        //        DeleteFirst();
-        //    else
-        //    {
-        //        Node<T> pointer = Head;  // used for traversing the list
-
-        //        for (int i = 1; i < nodePlaceNumber; i++)  // start at the first node and stop so pointer points to nodePlaceNumber to delete
-        //        {
-        //            pointer = pointer.Next;
-        //            if (pointer == null)
-        //            {
-        //                Console.WriteLine($"The list is less than {nodePlaceNumber} nodes long, so node {nodePlaceNumber} doesn't exist and cannot be deleted.\n");
-        //                break;
-        //            }
-        //            DeleteValue(pointer.Value);  // deletes the node
-        //        }
-        //    }
-        //}
-
-        //his method:
-        public void DeleteNode(Node<T> node)
+        public void DeleteNode(Node<T> node)  // running time O(1)  
         {
             if (IsEmpty())
-                throw new Exception("You can't delete from an empty list");
+                throw new Exception("You can't delete from an empty list.");
             else if (node == Head)
                 DeleteFirst();
             else if (node == Tail)
@@ -234,7 +143,7 @@ namespace MyLibrary
             }
         }
 
-        public void Reverse()
+        public void Reverse()  // running time O(n)  
         {
             if (IsEmpty())
                 throw new Exception("You can't reverse an empty list.");  // this crashes and lets the user know what's wrong
@@ -245,8 +154,8 @@ namespace MyLibrary
                 Node<T> temp = null;  // temporary holder
                 Node<T> pointer = Head;  // used for traversing the list
 
-                while (pointer != null)  // swap Next and Previous for all nodes
-                // I got the while block code and the next line after it online; it produces the correct result, but I'm having a hard time trying to explain how it works
+                // swap Next and Previous for all nodes
+                while (pointer != null)  
                 {
                     temp = pointer.Previous;
                     pointer.Previous = pointer.Next;
@@ -258,49 +167,32 @@ namespace MyLibrary
             }
         }
 
-        public bool IsEmpty()
+        public bool IsEmpty()  // running time O(1)
         {
             return Head == null;  // if false (head points to null) the list is empty; returns true or false
         }
 
-        public void Clear()
+        public void Clear()  // running time O(n)
         {
-            //my code:
-            //if (IsEmpty())
-            //    Console.WriteLine("The list is already empty so there are no nodes to clear.");  // doesn't crash the program; displays this message to console instead
-            //else
-            //{
-            //    Node<T> temp = null;  // temporary holder
-            //    while (Head != null)  // deletes nodes one-by-one; results in nothing pointing to the nodes so the garbage collector will delete the nodes from memory
-            //    {
-            //        temp = Head;
-            //        Head = Head.Next;
-            //        temp = null;
-            //    }
-            //}
-
-            //his code:
-            if (!IsEmpty())
+            if (!IsEmpty())  // if the list is NOT empty
             {
-                Node<T> finger = Head.Next;
+                Node<T> pointer = Head.Next;  // start at the second node in the list
 
-                //"delete" all PREV links
-                while (finger != null)
+                // delete all previous links
+                while (pointer != null)
                 {
-                    //delete prev
-                    finger.Previous = null;
-
-                    //move right
-                    finger = finger.Next;
+                    pointer.Previous = null;  // delete previous
+                    pointer = pointer.Next;  // move right
                 }
 
-                //head -> null
                 Head = null;
                 Tail = null;
             }
+            else  // if the list is empty
+                Console.WriteLine("The list is empty so there are no nodes to clear.");
         }
 
-        public void Display()
+        public void Display()  // running time O(n)
         {
             if (IsEmpty())
                 Console.WriteLine("The list is empty so there are no values to display.\n");
