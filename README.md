@@ -22,11 +22,12 @@
 - Random number generator to populate array
 - Stopwatch
 #### 2-15-22
-- 
+- Building an ArrayList from scratch
+- Generic programming overview
 #### 2-22-22
-- 
+- Building a Singly Linked List from scratch
 #### 3-1-22
-- 
+- Building a Doubly Linked List, Queue, Stack, and Stack-using-a-Queue from scratch
 #### 3-15-22
 - Binary search tree
 - Add a value, find a value, find max, find min, count all nodes, count leaf nodes, find height of tree, Breadth First Search, Depth First Search, PreOrder/InOrder/PostOrder traversals
@@ -37,10 +38,8 @@
 - List from System.Collections.Generic (type-safe)
 - Dictionary, read txt file, create/display frequency of each character in the txt file
 #### 4-5-22
-- 
+- Built UniqueList and SortedList by inheriting List
+- Built Student class to compare objects
+- Static vs non-static members
 #### 4-12-22
-- 
-#### 4-19-22
-- 
-#### 4-26-22
--
+- Building a Graph from scratch
