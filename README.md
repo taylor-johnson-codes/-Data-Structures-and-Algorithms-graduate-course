@@ -1,5 +1,5 @@
 ## CLASSWORK
-#### To view my code, click on the classwork folder, then click on the classwork folder again, then click on any/all of the .cs files located there.
+### To view my code, click on the classwork folder, then click on the classwork folder again, then click on any/all of the .cs files located there.
 #### 1-11-22
 - Read/write to console and external file
 - Method to display stars
@@ -43,3 +43,4 @@
 - Static vs non-static members
 #### 4-12-22
 - Building a Graph from scratch
+- Add a vertex, add an edge, remove an edge, remove a vertex, traverse the graph with depth-first-search, print the graph
