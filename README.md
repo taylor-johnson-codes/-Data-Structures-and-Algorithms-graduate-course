@@ -38,11 +38,12 @@
 - List from System.Collections.Generic (type-safe)
 - Dictionary, read txt file, create/display frequency of each character in the txt file
 #### 4-5-22
-- Built UniqueList and SortedList by inheriting List
-- Built Student class to compare objects
+- Building UniqueList and SortedList by inheriting List
+- Building Student class to compare objects
 - Static vs non-static members
 #### 4-12-22
 - Building a Graph from scratch
 - Add a vertex, add an edge, remove an edge, remove a vertex, traverse the graph with depth-first-search, print the graph
 #### 4-26-22
-- Building a Skip List
+- Building a Skip List from scratch
+- Search, insert, remove, print
