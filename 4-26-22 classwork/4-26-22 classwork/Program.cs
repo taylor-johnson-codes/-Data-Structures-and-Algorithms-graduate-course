@@ -10,7 +10,18 @@ namespace _4_26_22_classwork
             // SKIP LIST
             // translated Java code to C# while following this video: https://www.youtube.com/watch?v=Fsw6J8I6X7o
 
-            Console.WriteLine("hi");
+            SkipList skipList = new SkipList(); Console.WriteLine("skip list created");
+
+            skipList.Insert(6); Console.WriteLine("6 inserted");
+            skipList.Insert(15); Console.WriteLine("15 inserted");
+            skipList.Insert(44); Console.WriteLine("44 inserted");
+
+            skipList.PrintSkipList();
+
+            skipList.Remove(4);
+            //skipList.Remove(123);
+
+            skipList.PrintSkipList();
         }
     }
 
@@ -250,7 +261,7 @@ namespace _4_26_22_classwork
 
             while (highestLevel != null)
             {
-                mySkipList.Append($"\nLevel: {level}\n");
+                mySkipList.Append($"Level {level} contains ");
 
                 while (starting != null)
                 {
