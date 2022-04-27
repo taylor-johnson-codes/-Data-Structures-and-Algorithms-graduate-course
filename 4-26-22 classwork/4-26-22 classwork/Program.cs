@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;  // for StringBuilder in print method
 
 namespace _4_26_22_classwork
 {
@@ -117,8 +118,7 @@ namespace _4_26_22_classwork
 
             } while (randomBool == true);
 
-
-
+            return arbitraryNode;
         }
 
         // used with Insert()
@@ -156,11 +156,118 @@ namespace _4_26_22_classwork
         {
             Node newNode = new Node(insertValue);
             Node nodeBeforeNewNode = position.Below.Below;
+
+            // update references
+            PreviousAndNextReferences(arbitraryNode, newNode);
+            AboveAndBelowReferences(position, insertValue, newNode, nodeBeforeNewNode);
+
+            return newNode;
         }
 
+        // used with InsertAfterAbove()
+        private void PreviousAndNextReferences(Node arbitraryNode, Node newNode) 
+        {
+            newNode.Next = arbitraryNode.Next;
+            newNode.Previous = arbitraryNode;
+            arbitraryNode.Next.Previous = newNode;
+            arbitraryNode.Next = newNode;
+        }
 
+        // used with InsertAfterAbove()
+        private void AboveAndBelowReferences(Node position, int insertValue, Node newNode, Node nodeBeforeNewNode)
+        {
+            // position is the level above the new node we're inserting
+            // nodeBeforeNewNode is the level below the new node we're inserting
 
+            if (nodeBeforeNewNode != null)
+            {
+                while (true)
+                {
+                    if (nodeBeforeNewNode.Next.Value != insertValue)
+                        nodeBeforeNewNode = nodeBeforeNewNode.Next;  // keep moving right
+                    else
+                        break;
+                }
 
+                newNode.Below = nodeBeforeNewNode.Next;
+                nodeBeforeNewNode.Next.Above = newNode;
+            }
 
+            if (position != null)
+                if (position.Next.Value == insertValue) 
+                    newNode.Above = position.Next;
+        }
+
+        public Node Remove(int valueToRemove)
+        {
+            // need to find the node to be able to remove the node
+            Node nodeToBeRemoved = Search(valueToRemove);
+
+            // node not found
+            if (nodeToBeRemoved.Value != valueToRemove)
+            {
+                Console.WriteLine($"No node containing the value {valueToRemove} was found, so no node was removed.");
+                return null;
+            }
+
+            RemoveReferences(nodeToBeRemoved);
+
+            // node found
+            while (nodeToBeRemoved != null)
+            {
+                RemoveReferences(nodeToBeRemoved);
+
+                if (nodeToBeRemoved.Above != null)
+                    nodeToBeRemoved = nodeToBeRemoved.Above;
+                else
+                    break;
+            }
+
+            return nodeToBeRemoved;
+        }
+
+        // used with Remove()
+        private void RemoveReferences(Node nodeToBeRemoved)
+        {
+            // obtain Next and Previous references to the node that will be removed
+            Node afterNodeToBeRemoved = nodeToBeRemoved.Next;
+            Node beforeNodeToBeRemoved = nodeToBeRemoved.Previous;
+
+            // update references
+            beforeNodeToBeRemoved.Next = afterNodeToBeRemoved;
+            afterNodeToBeRemoved.Previous = beforeNodeToBeRemoved;
+        }
+
+        public void PrintSkipList()
+        {
+            StringBuilder mySkipList = new StringBuilder();
+            mySkipList.Append("\nSkip List starting with top-left node:\n");
+
+            Node starting = Head;
+
+            Node highestLevel = starting;
+            int level = HeightOfSkipList;
+
+            while (highestLevel != null)
+            {
+                mySkipList.Append($"\nLevel: {level}\n");
+
+                while (starting != null)
+                {
+                    mySkipList.Append(starting.Value);
+
+                    if (starting.Next != null)
+                        mySkipList.Append(" : ");
+
+                    starting = starting.Next;
+                }
+
+                highestLevel = highestLevel.Below;
+                starting = highestLevel;
+                level--;
+            }
+
+            Console.WriteLine(mySkipList.ToString());
+        }
     }
 }
