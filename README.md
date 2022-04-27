@@ -44,3 +44,5 @@
 #### 4-12-22
 - Building a Graph from scratch
 - Add a vertex, add an edge, remove an edge, remove a vertex, traverse the graph with depth-first-search, print the graph
+#### 4-26-22
+- Building a Skip List
