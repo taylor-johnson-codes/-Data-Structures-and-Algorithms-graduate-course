@@ -10,16 +10,24 @@ namespace _4_26_22_classwork
             // SKIP LIST
             // translated Java code to C# while following this video: https://www.youtube.com/watch?v=Fsw6J8I6X7o
 
-            SkipList skipList = new SkipList(); Console.WriteLine("skip list created");
+            SkipList skipList = new SkipList(); 
+            Console.WriteLine("New skip list created.");
 
-            skipList.Insert(6); Console.WriteLine("6 inserted");
-            skipList.Insert(15); Console.WriteLine("15 inserted");
-            skipList.Insert(44); Console.WriteLine("44 inserted");
+            skipList.Insert(10);
+            skipList.Insert(20);
+            skipList.Insert(30);
+            skipList.Insert(40);
+            skipList.Insert(50);
+            skipList.Insert(10);
 
             skipList.PrintSkipList();
+            Console.WriteLine();
 
-            skipList.Remove(4);
-            //skipList.Remove(123);
+            skipList.Remove(123);
+            Console.WriteLine();
+
+            skipList.Remove(30);
+            Console.WriteLine("Removed 30.");
 
             skipList.PrintSkipList();
         }
@@ -51,15 +59,13 @@ namespace _4_26_22_classwork
         // sentinel nodes: head is positive infinity; tail is negative infinity
         public Node Head { get; set; }
         public Node Tail { get; set; }
-        private const int NegativeInfinity = int.MinValue;
-        private const int PositiveInfinity = int.MaxValue;
 
-        // highest level:
+        private const int NegativeInfinity = int.MinValue;  // for the head node
+        private const int PositiveInfinity = int.MaxValue;  // for the tail node
+
         private int HeightOfSkipList = 0;
 
-        // random outcome generator: true is considered "heads"; false is considered "tails"
-        // if true, increase height of skip list
-        public Random random = new Random();
+        public Random random = new Random();  // used in Insert() as a coin flip
 
         // CONSTRUCTOR SECTION
         public SkipList()
@@ -77,63 +83,71 @@ namespace _4_26_22_classwork
             // start the search at the head node (top left node)
             Node pointer = Head;
 
-            // search path: across, below, across, below, repeat until searchValue is found,
-            // or until the search gets to level 0 and finds the greatest value closest to searchValue, but not greater than searchValue
-            while (pointer.Below != null)  // while not on level 0
+            // search path: across, below, across, below, repeat until searchValue is found, or
+            // until the search gets to level 0 and finds the greatest value closest to searchValue, but not greater than searchValue
+            while (pointer.Below != null)
             {
-                // go down a level
+                // go down a level (top level is just the head and the tail nodes)
                 pointer = pointer.Below;  
 
                 // search across the level
-                while (searchValue >= pointer.Next.Value)  // while the searchValue is >= to the pointer's value, keep searching across (move right)
+                while (searchValue >= pointer.Next.Value)
                     pointer = pointer.Next; 
             }
 
-            return pointer;  // returns either node storing searchValue, or the greatest value closest to searchValue, but not greater than searchValue
+            return pointer;  
+            // returns either the node storing searchValue, or
+            // the node storing the greatest value closest to searchValue, but not greater than searchValue
         }
 
         public Node Insert(int insertValue)
         {
             Node position = Search(insertValue);  // where to insert the new node
-            Node arbitraryNode;  // used in do-while loop 
 
-            int level = -1;  // will get set to 0 in do-while loop
-            int numberOfHeads = -1;  // will get set to 0 in do-while loop
-
-            // if searchValue already exists in the skip list, you can't insert it
+            // if searchValue already exists in the skip list
             if (position.Value == insertValue)
+            {
+                Console.WriteLine($"{insertValue} is already in the skip list; it can't be added again.");
                 return position;
+            }
 
-            // random.nextBoolean() in Java doesn't have a direct C# translation
-            // used the info here to make the translation: https://www.loekvandenouweland.com/content/random-boolean-in-csharp.html
-            bool randomBool = random.Next(2) == 1;  // 0 = false, 1 = true
+            // if searchValue doesn't exist in the skip list, add it and keep increasing its tower (numberOfHeads) until the coin flip is false
 
-            // if searchValue doesn't exist in the skip list
+            // these variables will get set to 0 in the do-while loop
+            int level = -1;  
+            int numberOfHeads = -1; 
+            int coinFlipCount = -1; 
+
+            Node tempNode;  // used in the do-while loop 
+
             do  // always done at least once
             {
                 // for the initial "do", these two variables get set to 0
-                numberOfHeads++;
                 level++;
+                numberOfHeads++;
+                coinFlipCount++;
 
-                CanIncreaseLevel(level);
+                IncreaseLevelCheck(level);
 
-                arbitraryNode = position;
+                tempNode = position;
 
-                // ready to insert newNode
                 while (position.Above == null)
                     position = position.Previous;
 
                 position = position.Above;
 
-                arbitraryNode = InsertAfterAbove(position, arbitraryNode, insertValue);
+                tempNode = InsertAfterAbove(position, tempNode, insertValue);
 
-            } while (randomBool == true);
+            } while (random.Next(2) == 1);  // 0 = false, 1 = true, 2 is excluded
+            // random.nextBoolean() in Java doesn't have a direct C# translation
+            // used the info here to make the random.Next(2) translation: https://www.loekvandenouweland.com/content/random-boolean-in-csharp.html
 
-            return arbitraryNode;
+            Console.WriteLine($"The value {insertValue} is at level {level}. Coin was flipped {coinFlipCount} time(s).");
+            return tempNode;
         }
 
         // used with Insert()
-        private void CanIncreaseLevel(int incomingLevel)
+        private void IncreaseLevelCheck(int incomingLevel)
         {
             if (incomingLevel >= HeightOfSkipList)
             {
@@ -142,46 +156,46 @@ namespace _4_26_22_classwork
             }
         }
 
-        // used with CanIncreaseLevel()
+        // used with IncreaseLevelCheck()
         private void AddEmptyLevel()
         {
             // new level contains head and tail nodes
             Node newHeadNode = new Node(NegativeInfinity);
             Node newTailNode = new Node(PositiveInfinity);
 
-            // * refers to updating existing head node to newHeadNode and existing tail node to newTailNode 
+            // update references
             newHeadNode.Next = newTailNode;
-            newHeadNode.Below = Head;  // *
+            newHeadNode.Below = Head;  
             newTailNode.Previous = newHeadNode;
-            newTailNode.Below = Tail;  // *
+            newTailNode.Below = Tail;  
 
-            Head.Above = newHeadNode;  // *
-            Tail.Above = newTailNode;  // *
+            Head.Above = newHeadNode;  
+            Tail.Above = newTailNode;  
 
-            Head = newHeadNode;  // *
-            Tail = newTailNode;  // *
+            Head = newHeadNode; 
+            Tail = newTailNode; 
         }
 
         // used with Insert()
-        private Node InsertAfterAbove(Node position, Node arbitraryNode, int insertValue)
+        private Node InsertAfterAbove(Node position, Node tempNode, int insertValue)
         {
             Node newNode = new Node(insertValue);
             Node nodeBeforeNewNode = position.Below.Below;
 
             // update references
-            PreviousAndNextReferences(arbitraryNode, newNode);
+            PreviousAndNextReferences(tempNode, newNode);
             AboveAndBelowReferences(position, insertValue, newNode, nodeBeforeNewNode);
 
             return newNode;
         }
 
         // used with InsertAfterAbove()
-        private void PreviousAndNextReferences(Node arbitraryNode, Node newNode) 
+        private void PreviousAndNextReferences(Node tempNode, Node newNode) 
         {
-            newNode.Next = arbitraryNode.Next;
-            newNode.Previous = arbitraryNode;
-            arbitraryNode.Next.Previous = newNode;
-            arbitraryNode.Next = newNode;
+            newNode.Next = tempNode.Next;
+            newNode.Previous = tempNode;
+            tempNode.Next.Previous = newNode;
+            tempNode.Next = newNode;
         }
 
         // used with InsertAfterAbove()
@@ -195,7 +209,7 @@ namespace _4_26_22_classwork
                 while (true)
                 {
                     if (nodeBeforeNewNode.Next.Value != insertValue)
-                        nodeBeforeNewNode = nodeBeforeNewNode.Next;  // keep moving right
+                        nodeBeforeNewNode = nodeBeforeNewNode.Next;
                     else
                         break;
                 }
@@ -211,7 +225,7 @@ namespace _4_26_22_classwork
 
         public Node Remove(int valueToRemove)
         {
-            // need to find the node to be able to remove the node
+            // to be able to remove the node, we need to find it first
             Node nodeToBeRemoved = Search(valueToRemove);
 
             // node not found
@@ -221,9 +235,9 @@ namespace _4_26_22_classwork
                 return null;
             }
 
+            // node found
             RemoveReferences(nodeToBeRemoved);
 
-            // node found
             while (nodeToBeRemoved != null)
             {
                 RemoveReferences(nodeToBeRemoved);
@@ -240,7 +254,7 @@ namespace _4_26_22_classwork
         // used with Remove()
         private void RemoveReferences(Node nodeToBeRemoved)
         {
-            // obtain Next and Previous references to the node that will be removed
+            // obtain Next and Previous references to nodeToBeRemoved
             Node afterNodeToBeRemoved = nodeToBeRemoved.Next;
             Node beforeNodeToBeRemoved = nodeToBeRemoved.Previous;
 
@@ -252,7 +266,7 @@ namespace _4_26_22_classwork
         public void PrintSkipList()
         {
             StringBuilder mySkipList = new StringBuilder();
-            mySkipList.Append("\nSkip List starting with top-left node:\n");
+            mySkipList.Append("\nSkip list starting with top-left node:");
 
             Node starting = Head;
 
@@ -261,14 +275,14 @@ namespace _4_26_22_classwork
 
             while (highestLevel != null)
             {
-                mySkipList.Append($"Level {level} contains ");
+                mySkipList.Append($"\nLevel {level} contains ");
 
                 while (starting != null)
                 {
                     mySkipList.Append(starting.Value);
 
                     if (starting.Next != null)
-                        mySkipList.Append(" : ");
+                        mySkipList.Append(" | ");
 
                     starting = starting.Next;
                 }
