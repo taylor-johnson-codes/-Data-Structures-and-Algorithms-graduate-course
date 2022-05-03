@@ -78,6 +78,19 @@ namespace _4_26_22_classwork
         }
 
         // METHODS SECTION
+
+        /* Big-Oh time complexity for Search(), Insert(), and Remove(): 
+         * Expected performance: O(log n)
+         * Worst case: O(n)
+         * 
+         * Skip Lists allow intermediate nodes in the list to be "skipped" during a traversal resulting in an expected performance of O(log n) per operation. 
+         * It is possible for the time to be substantially larger if the configuration of node levels is unfavorable for a particular operation. 
+         * Since the node sizes are generated randomly, it is possible to get a "bad" run of sizes. 
+         * For example, it is possible that each node will be generated at the same size, producing the equivalent of an ordinary sorted list. 
+         * A bad run of sizes will result in longer-than expected search (and therefore insert or remove) times; the SkipList will simply not be as efficient as expected. 
+         * Reference: https://www.csee.umbc.edu/courses/undergraduate/341/fall01/Lectures/SkipLists/skip_lists/skip_lists.html
+        */
+
         public Node Search(int searchValue)
         {
             // start the search at the head node (top left node)
