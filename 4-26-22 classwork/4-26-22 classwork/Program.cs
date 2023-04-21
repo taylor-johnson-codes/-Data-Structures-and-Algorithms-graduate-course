@@ -13,12 +13,10 @@ namespace _4_26_22_classwork
             SkipList skipList = new SkipList(); 
             Console.WriteLine("New skip list created.");
 
-            skipList.Insert(10);
-            skipList.Insert(20);
-            skipList.Insert(30);
-            skipList.Insert(40);
-            skipList.Insert(50);
-            skipList.Insert(10);
+            skipList.Insert(4000);
+            skipList.Insert(-4000);
+            skipList.Insert(333);
+            skipList.Insert(333);
 
             skipList.PrintSkipList();
             Console.WriteLine();
@@ -26,8 +24,8 @@ namespace _4_26_22_classwork
             skipList.Remove(123);
             Console.WriteLine();
 
-            skipList.Remove(30);
-            Console.WriteLine("Removed 30.");
+            skipList.Remove(333);
+            Console.WriteLine("Removed 333.");
 
             skipList.PrintSkipList();
         }
